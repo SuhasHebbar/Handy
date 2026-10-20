@@ -26,6 +26,11 @@
     "showFewerModels": "Hiển thị ít mô hình hơn",
     "recommended": "Đề xuất",
     "customModelDescription": "Không được hỗ trợ chính thức",
+    "remoteServer": {
+      "title": "Hoặc dùng máy chủ chuyển giọng nói",
+      "description": "Ít bộ nhớ? Gửi bản ghi âm đến máy chủ Whisper tương thích OpenAI thay vì tải mô hình về.",
+      "continue": "Tiếp tục với máy chủ"
+    },
     "migration": {
       "title": "Các mô hình của bạn cần được cập nhật",
       "description": "Handy hiện sử dụng loại mô hình mới hơn. Hãy tải phiên bản mới để tiếp tục chuyển đổi giọng nói. Các phiên bản cũ sẽ bị xóa.",
@@ -104,6 +109,7 @@
     "modelError": "Lỗi Mô Hình",
     "modelUnloaded": "Mô Hình Đã Gỡ",
     "noModelDownloadRequired": "Chưa Có Mô Hình - Cần Tải Xuống",
+    "remoteServer": "Máy chủ ngoài",
     "deleteModel": "Xóa {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
     "capabilities": {
@@ -148,6 +154,34 @@
       "rescan": {
         "label": "Quét lại",
         "tooltip": "Quét lại các mô hình được thêm vào thư mục mô hình hoặc bộ nhớ đệm Hugging Face bên ngoài Handy"
+      }
+    },
+    "remoteTranscription": {
+      "title": "Máy chủ chuyển giọng nói",
+      "localModelsFallback": "Handy dùng mô hình đang hoạt động bên dưới khi không kết nối được máy chủ.",
+      "localModelsUnused": "Không được dùng khi máy chủ ngoài đang bật. Bật dự phòng để dùng mô hình cục bộ khi không kết nối được máy chủ.",
+      "enabled": {
+        "label": "Dùng máy chủ ngoài",
+        "description": "Gửi bản ghi âm đến máy chủ Whisper tương thích OpenAI thay vì tải mô hình cục bộ. Tiết kiệm bộ nhớ khi máy chủ đó đã chạy sẵn."
+      },
+      "url": {
+        "title": "URL máy chủ",
+        "description": "URL gốc của API, bao gồm /v1. Handy gửi đến {URL}/audio/transcriptions."
+      },
+      "apiKey": {
+        "title": "Khóa API",
+        "description": "Không bắt buộc. Được gửi dưới dạng token Bearer trong tiêu đề Authorization. Để trống nếu máy chủ không yêu cầu xác thực.",
+        "placeholder": "Không bắt buộc"
+      },
+      "fallback": {
+        "label": "Dự phòng bằng mô hình cục bộ",
+        "description": "Nếu không kết nối được máy chủ hoặc máy chủ trả về lỗi, Handy sẽ chuyển giọng nói bằng mô hình cục bộ. Handy kiểm tra máy chủ ngay khi bắt đầu ghi âm, nên mô hình cục bộ có thể tải trong lúc bạn nói. Khi máy chủ phản hồi trở lại, mô hình cục bộ sẽ được giải phóng."
+      },
+      "busyTimeout": {
+        "label": "Chuyển khi máy chủ bận",
+        "description": "Khi máy chủ chấp nhận kết nối nhưng không trả lời một yêu cầu thử ngắn trong khoảng thời gian này, chẳng hạn vì vẫn đang xử lý một bản ghi dài, Handy sẽ dùng mô hình cục bộ. Khi máy chủ phản hồi nhanh trở lại, Handy chuyển về. Tắt chỉ kiểm tra xem có kết nối được máy chủ hay không.",
+        "off": "Tắt",
+        "seconds": "{{seconds}} giây"
       }
     },
     "general": {

@@ -494,6 +494,58 @@ async changeTranscribeGpuDevice(device: string | null) : Promise<Result<null, st
 async getAvailableAccelerators() : Promise<AvailableAccelerators> {
     return await TAURI_INVOKE("get_available_accelerators");
 },
+async changeRemoteTranscriptionEnabledSetting(enabled: boolean) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("change_remote_transcription_enabled_setting", { enabled }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async changeRemoteTranscriptionUrlSetting(url: string) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("change_remote_transcription_url_setting", { url }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async changeRemoteTranscriptionApiKeySetting(apiKey: string) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("change_remote_transcription_api_key_setting", { apiKey }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async changeRemoteTranscriptionFallbackSetting(enabled: boolean) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("change_remote_transcription_fallback_setting", { enabled }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async changeRemoteTranscriptionBusyTimeoutMsSetting(timeoutMs: number) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("change_remote_transcription_busy_timeout_ms_setting", { timeoutMs }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Finishes onboarding without selecting a local model, for users who set up
+ * a remote transcription server instead.
+ */
+async markOnboardingCompleted() : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("mark_onboarding_completed") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
 /**
  * Start key recording mode
  */
@@ -1042,7 +1094,31 @@ long_form_chunking?: boolean;
  * not gated on this — that follows model capability. Migrated from the old
  * `overlay_position` (position `none` → style `None`).
  */
-overlay_style?: OverlayStyle }
+overlay_style?: OverlayStyle; 
+/**
+ * Send recordings to an external OpenAI-compatible transcription server
+ * (`POST {remote_transcription_url}/audio/transcriptions`) instead of
+ * loading a local model.
+ */
+remote_transcription_enabled?: boolean; 
+/**
+ * Base URL of the OpenAI-compatible API, including the `/v1` part.
+ */
+remote_transcription_url?: string; 
+/**
+ * Optional API key, sent as `Authorization: Bearer <key>`. Empty sends
+ * no header, which is what a local server without auth expects.
+ */
+remote_transcription_api_key?: SecretString; 
+/**
+ * When the remote server fails, load the local model and transcribe
+ * with it instead of losing the recording.
+ */
+remote_transcription_fallback?: boolean; 
+/**
+ * Busy threshold for the recording-start probe; 0 turns it off.
+ */
+remote_transcription_busy_timeout_ms?: number }
 export type AudioDevice = { index: string; name: string; is_default: boolean }
 export type AutoSubmitKey = "enter" | "ctrl_enter" | "cmd_enter"
 export type AvailableAccelerators = { transcribe: string[]; gpu_devices: GpuDeviceOption[] }
@@ -1135,6 +1211,11 @@ export type RecordingRetentionPeriod = "never" | "preserve_limit" | "days_3" | "
  */
 export type RetiredModel = { id: string; name: string; size_mb: number; replacement_repo: string }
 export type SecretMap = Partial<{ [key in string]: string }>
+/**
+ * A single secret whose `Debug` output hides the value, so logging the
+ * settings never leaks it.
+ */
+export type SecretString = string
 export type SecureInputStatus = { 
 /**
  * Secure input is currently enabled (live check)

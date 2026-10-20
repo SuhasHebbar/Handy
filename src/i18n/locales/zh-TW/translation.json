@@ -26,6 +26,11 @@
     "showFewerModels": "顯示較少模型",
     "recommended": "推薦",
     "customModelDescription": "官方不支援",
+    "remoteServer": {
+      "title": "或使用轉錄伺服器",
+      "description": "記憶體不足？將錄音傳送到相容 OpenAI 的 Whisper 伺服器，無需下載模型。",
+      "continue": "使用伺服器繼續"
+    },
     "migration": {
       "title": "您的模型需要更新",
       "description": "Handy 現在使用更新的模型類型。請下載新版本以繼續轉錄。舊版本將會移除。",
@@ -104,6 +109,7 @@
     "modelError": "模型錯誤",
     "modelUnloaded": "模型已卸載",
     "noModelDownloadRequired": "無模型 - 需要下載",
+    "remoteServer": "外部伺服器",
     "deleteModel": "刪除 {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "取消",
@@ -199,6 +205,34 @@
       "rescan": {
         "label": "重新掃描",
         "tooltip": "重新掃描在 Handy 之外新增到模型資料夾或 Hugging Face 快取中的模型"
+      }
+    },
+    "remoteTranscription": {
+      "title": "轉錄伺服器",
+      "localModelsFallback": "無法連線伺服器時，Handy 會使用下方的目前模型。",
+      "localModelsUnused": "啟用外部伺服器時不會使用。開啟備援功能後，可在無法連線伺服器時使用本機模型。",
+      "enabled": {
+        "label": "使用外部伺服器",
+        "description": "將錄音傳送到相容 OpenAI 的 Whisper 伺服器，而不是載入本機模型。若該伺服器已在執行，可節省記憶體。"
+      },
+      "url": {
+        "title": "伺服器 URL",
+        "description": "API 的基礎 URL，包含 /v1。Handy 會傳送到 {URL}/audio/transcriptions。"
+      },
+      "apiKey": {
+        "title": "API 金鑰",
+        "description": "選填。以 Bearer 權杖形式在 Authorization 標頭中傳送。若伺服器不需驗證，請留空。",
+        "placeholder": "選填"
+      },
+      "fallback": {
+        "label": "備援使用本機模型",
+        "description": "若無法連線伺服器或伺服器傳回錯誤，則使用本機模型轉錄。Handy 會在開始錄音時立即檢查伺服器，因此本機模型可在你說話時預先載入。伺服器恢復回應後，本機模型會被卸載。"
+      },
+      "busyTimeout": {
+        "label": "伺服器忙碌時切換",
+        "description": "若伺服器接受連線，但未在此時間內回應一個簡短的測試請求（例如仍在轉錄一段長錄音），Handy 會使用本機模型。伺服器再次快速回應後會切換回來。關閉時只檢查是否能連線伺服器。",
+        "off": "關閉",
+        "seconds": "{{seconds}} 秒"
       }
     },
     "sound": {

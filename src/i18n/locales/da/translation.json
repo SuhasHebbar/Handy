@@ -26,6 +26,11 @@
     "showFewerModels": "Vis færre modeller",
     "recommended": "Anbefalet",
     "customModelDescription": "Ikke officielt understøttet",
+    "remoteServer": {
+      "title": "Eller brug en transskriptionsserver",
+      "description": "Lidt hukommelse? Send optagelser til en OpenAI-kompatibel Whisper-server i stedet for at downloade en model.",
+      "continue": "Fortsæt med server"
+    },
     "migration": {
       "title": "Dine modeller skal opdateres",
       "description": "Handy bruger nu en nyere type model. Download den nye version for at fortsætte med at transskribere. Gamle versioner vil blive fjernet.",
@@ -105,6 +110,7 @@
     "modelError": "Modelfejl",
     "modelUnloaded": "Model frigjort",
     "noModelDownloadRequired": "Ingen model - download påkrævet",
+    "remoteServer": "Ekstern server",
     "deleteModel": "Slet {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "Annuller",
@@ -200,6 +206,34 @@
         "tooltip": "Søg igen efter modeller, der er tilføjet til modelmappen eller Hugging Face-cachen uden for Handy"
       },
       "noModelsMatch": "Ingen modeller matcher dette filter."
+    },
+    "remoteTranscription": {
+      "title": "Transskriptionsserver",
+      "localModelsFallback": "Handy bruger den aktive model nedenfor, når serveren ikke kan nås.",
+      "localModelsUnused": "Bruges ikke, mens den eksterne server er slået til. Slå reserveløsningen til for at bruge en lokal model, når serveren ikke kan nås.",
+      "enabled": {
+        "label": "Brug ekstern server",
+        "description": "Send optagelser til en OpenAI-kompatibel Whisper-server i stedet for at indlæse en lokal model. Sparer hukommelse, når serveren allerede kører."
+      },
+      "url": {
+        "title": "Server-URL",
+        "description": "API'ets basis-URL, inklusive /v1. Handy sender til {URL}/audio/transcriptions."
+      },
+      "apiKey": {
+        "title": "API-nøgle",
+        "description": "Valgfri. Sendes som Bearer-token i Authorization-headeren. Lad den stå tom for en server uden godkendelse.",
+        "placeholder": "Valgfri"
+      },
+      "fallback": {
+        "label": "Brug lokal model som reserve",
+        "description": "Hvis serveren ikke kan nås eller returnerer en fejl, transskriberes der med den lokale model. Handy tjekker serveren, så snart optagelsen starter, så den lokale model allerede kan indlæses, mens du taler. Når serveren svarer igen, fjernes den lokale model fra hukommelsen."
+      },
+      "busyTimeout": {
+        "label": "Skift, når serveren er optaget",
+        "description": "Når serveren accepterer forbindelsen, men ikke besvarer en kort testanmodning inden for denne tid, for eksempel fordi den stadig transskriberer en lang optagelse, bruger Handy den lokale model. Når serveren igen svarer hurtigt, skifter Handy tilbage. Fra tjekker kun, om serveren kan nås.",
+        "off": "Fra",
+        "seconds": "{{seconds}} s"
+      }
     },
     "sound": {
       "title": "Lyd",

@@ -26,6 +26,11 @@
     "showFewerModels": "Afficher moins de modèles",
     "recommended": "Recommandé",
     "customModelDescription": "Non officiellement pris en charge",
+    "remoteServer": {
+      "title": "Ou utilisez un serveur de transcription",
+      "description": "Peu de mémoire ? Envoyez les enregistrements à un serveur Whisper compatible OpenAI au lieu de télécharger un modèle.",
+      "continue": "Continuer avec le serveur"
+    },
     "migration": {
       "title": "Vos modèles doivent être mis à jour",
       "description": "Handy utilise désormais un nouveau type de modèle. Téléchargez la nouvelle version pour continuer à transcrire. Les anciennes versions seront supprimées.",
@@ -104,6 +109,7 @@
     "modelError": "Erreur du Modèle",
     "modelUnloaded": "Modèle Déchargé",
     "noModelDownloadRequired": "Aucun Modèle - Téléchargement Requis",
+    "remoteServer": "Serveur externe",
     "deleteModel": "Supprimer {{modelName}}",
     "downloadSpeed": "{{speed}} Mo/s",
     "capabilities": {
@@ -148,6 +154,34 @@
       "rescan": {
         "label": "Réanalyser",
         "tooltip": "Réanalyser pour détecter les modèles ajoutés au dossier des modèles ou au cache Hugging Face en dehors de Handy"
+      }
+    },
+    "remoteTranscription": {
+      "title": "Serveur de transcription",
+      "localModelsFallback": "Handy utilise le modèle actif ci-dessous lorsque le serveur est injoignable.",
+      "localModelsUnused": "Inutilisé tant que le serveur externe est activé. Activez le repli pour utiliser un modèle local lorsque le serveur est injoignable.",
+      "enabled": {
+        "label": "Utiliser un serveur externe",
+        "description": "Envoie les enregistrements à un serveur Whisper compatible OpenAI au lieu de charger un modèle local. Économise de la mémoire si ce serveur tourne déjà."
+      },
+      "url": {
+        "title": "URL du serveur",
+        "description": "URL de base de l'API, y compris /v1. Handy envoie vers {URL}/audio/transcriptions."
+      },
+      "apiKey": {
+        "title": "Clé API",
+        "description": "Facultatif. Envoyée comme jeton Bearer dans l'en-tête Authorization. Laissez vide pour un serveur sans authentification.",
+        "placeholder": "Facultatif"
+      },
+      "fallback": {
+        "label": "Se replier sur le modèle local",
+        "description": "Si le serveur est injoignable ou renvoie une erreur, la transcription se fait avec le modèle local. Handy vérifie le serveur dès le début de l'enregistrement, afin que le modèle local puisse déjà se charger pendant que vous parlez. Dès que le serveur répond à nouveau, le modèle local est déchargé."
+      },
+      "busyTimeout": {
+        "label": "Basculer quand le serveur est occupé",
+        "description": "Si le serveur accepte la connexion mais ne répond pas à une courte requête de test dans ce délai, par exemple parce qu'il transcrit encore un long enregistrement, Handy utilise le modèle local. Dès que le serveur répond de nouveau rapidement, il rebascule. Désactivé vérifie seulement si le serveur est joignable.",
+        "off": "Désactivé",
+        "seconds": "{{seconds}} s"
       }
     },
     "general": {

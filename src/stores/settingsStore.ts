@@ -161,6 +161,16 @@ const settingUpdaters: {
   history_limit: (value) => commands.updateHistoryLimit(value as number),
   post_process_enabled: (value) =>
     commands.changePostProcessEnabledSetting(value as boolean),
+  remote_transcription_enabled: (value) =>
+    commands.changeRemoteTranscriptionEnabledSetting(value as boolean),
+  remote_transcription_url: (value) =>
+    commands.changeRemoteTranscriptionUrlSetting(value as string),
+  remote_transcription_api_key: (value) =>
+    commands.changeRemoteTranscriptionApiKeySetting(value as string),
+  remote_transcription_fallback: (value) =>
+    commands.changeRemoteTranscriptionFallbackSetting(value as boolean),
+  remote_transcription_busy_timeout_ms: (value) =>
+    commands.changeRemoteTranscriptionBusyTimeoutMsSetting(value as number),
   post_process_selected_prompt_id: (value) =>
     commands.setPostProcessSelectedPrompt(value as string),
   mute_while_recording: (value) =>

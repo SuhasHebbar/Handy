@@ -26,6 +26,11 @@
     "showFewerModels": "Zobrazit méně modelů",
     "recommended": "Doporučeno",
     "customModelDescription": "Oficiálně nepodporováno",
+    "remoteServer": {
+      "title": "Nebo použijte přepisovací server",
+      "description": "Málo paměti? Posílejte nahrávky na server Whisper kompatibilní s OpenAI místo stahování modelu.",
+      "continue": "Pokračovat se serverem"
+    },
     "migration": {
       "title": "Vaše modely potřebují aktualizaci",
       "description": "Handy nyní používá novější typ modelů. Stáhněte si novou verzi, abyste mohli dál přepisovat. Staré verze budou odstraněny.",
@@ -103,6 +108,7 @@
     "modelError": "Chyba modelu",
     "modelUnloaded": "Model uvolněn",
     "noModelDownloadRequired": "Žádný model - je nutné stáhnout",
+    "remoteServer": "Externí server",
     "deleteModel": "Smazat {{modelName}}",
     "switching": "Přepínání...",
     "downloadSpeed": "{{speed}} MB/s",
@@ -148,6 +154,34 @@
       "rescan": {
         "label": "Znovu prohledat",
         "tooltip": "Znovu prohledat modely přidané do složky modelů nebo mezipaměti Hugging Face mimo Handy"
+      }
+    },
+    "remoteTranscription": {
+      "title": "Přepisovací server",
+      "localModelsFallback": "Handy použije aktivní model níže, když server není dostupný.",
+      "localModelsUnused": "Nepoužívá se, dokud je zapnutý externí server. Zapněte záložní režim, abyste použili místní model, když server není dostupný.",
+      "enabled": {
+        "label": "Použít externí server",
+        "description": "Posílá nahrávky na server Whisper kompatibilní s OpenAI místo načítání místního modelu. Šetří paměť, když tento server již běží."
+      },
+      "url": {
+        "title": "URL serveru",
+        "description": "Základní URL API včetně /v1. Handy odesílá na {URL}/audio/transcriptions."
+      },
+      "apiKey": {
+        "title": "Klíč API",
+        "description": "Volitelné. Odesílá se jako token Bearer v hlavičce Authorization. Pro server bez ověřování nechte prázdné.",
+        "placeholder": "Volitelné"
+      },
+      "fallback": {
+        "label": "Záložně použít místní model",
+        "description": "Pokud server není dostupný nebo vrátí chybu, přepis proběhne místním modelem. Handy kontroluje server hned při zahájení nahrávání, takže se místní model může načítat, zatímco mluvíte. Jakmile server znovu odpoví, místní model se uvolní."
+      },
+      "busyTimeout": {
+        "label": "Přepnout, když je server zaneprázdněný",
+        "description": "Když server přijme spojení, ale v tomto čase neodpoví na krátký testovací požadavek, například protože stále přepisuje dlouhou nahrávku, Handy použije místní model. Jakmile server znovu odpovídá rychle, přepne zpět. Vypnuto pouze kontroluje, zda je server dostupný.",
+        "off": "Vypnuto",
+        "seconds": "{{seconds}} s"
       }
     },
     "general": {

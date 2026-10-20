@@ -26,6 +26,11 @@
     "showFewerModels": "Minder modellen tonen",
     "recommended": "Aanbevolen",
     "customModelDescription": "Niet officieel ondersteund",
+    "remoteServer": {
+      "title": "Of gebruik een transcriptieserver",
+      "description": "Weinig geheugen? Stuur opnames naar een OpenAI-compatibele Whisper-server in plaats van een model te downloaden.",
+      "continue": "Doorgaan met server"
+    },
     "migration": {
       "title": "Je modellen moeten worden bijgewerkt",
       "description": "Handy gebruikt nu een nieuwer soort model. Download de nieuwe versie om te blijven transcriberen. Oude versies worden verwijderd.",
@@ -105,6 +110,7 @@
     "modelError": "Modelfout",
     "modelUnloaded": "Model ontladen",
     "noModelDownloadRequired": "Geen model - Download vereist",
+    "remoteServer": "Externe server",
     "deleteModel": "{{modelName}} verwijderen",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "Annuleren",
@@ -200,6 +206,34 @@
         "tooltip": "Scannen naar modellen die buiten Handy om zijn toegevoegd aan de modellenmap of Hugging Face-cache"
       },
       "noModelsMatch": "Geen modellen voldoen aan dit filter."
+    },
+    "remoteTranscription": {
+      "title": "Transcriptieserver",
+      "localModelsFallback": "Handy gebruikt het actieve model hieronder als de server niet bereikbaar is.",
+      "localModelsUnused": "Niet gebruikt zolang de externe server aan staat. Zet de terugval aan om een lokaal model te gebruiken als de server niet bereikbaar is.",
+      "enabled": {
+        "label": "Externe server gebruiken",
+        "description": "Stuur opnames naar een OpenAI-compatibele Whisper-server in plaats van een lokaal model te laden. Bespaart geheugen als die server al draait."
+      },
+      "url": {
+        "title": "Server-URL",
+        "description": "Basis-URL van de API, inclusief /v1. Handy stuurt naar {URL}/audio/transcriptions."
+      },
+      "apiKey": {
+        "title": "API-sleutel",
+        "description": "Optioneel. Wordt als Bearer-token in de Authorization-header verstuurd. Laat leeg voor een server zonder authenticatie.",
+        "placeholder": "Optioneel"
+      },
+      "fallback": {
+        "label": "Terugvallen op lokaal model",
+        "description": "Als de server niet bereikbaar is of een fout geeft, transcribeert Handy met het lokale model. Handy controleert de server zodra de opname begint, zodat het lokale model al kan laden terwijl je spreekt. Zodra de server weer antwoordt, wordt het lokale model ontladen."
+      },
+      "busyTimeout": {
+        "label": "Overschakelen als de server bezet is",
+        "description": "Als de server de verbinding accepteert maar een kort testverzoek niet binnen deze tijd beantwoordt, bijvoorbeeld omdat hij nog een lange opname transcribeert, gebruikt Handy het lokale model. Zodra de server weer snel antwoordt, schakelt Handy terug. Uit controleert alleen of de server bereikbaar is.",
+        "off": "Uit",
+        "seconds": "{{seconds}} s"
+      }
     },
     "sound": {
       "title": "Geluid",

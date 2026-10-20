@@ -12,6 +12,9 @@ import {
 import type { ModelCardStatus } from "@/components/onboarding";
 import { ModelCard } from "@/components/onboarding";
 import { useModelStore } from "@/stores/modelStore";
+import { useSettings } from "@/hooks/useSettings";
+import { RemoteTranscription } from "@/components/settings/RemoteTranscription";
+import { SettingsGroup } from "@/components/ui/SettingsGroup";
 import RetiredModelsNotice from "./RetiredModelsNotice";
 import {
   getLanguageLabel,
@@ -57,6 +60,11 @@ export const ModelsSettings: React.FC = () => {
     deleteModel,
     rescanLocalModels,
   } = useModelStore();
+  const { getSetting } = useSettings();
+  const remoteTranscriptionEnabled =
+    getSetting("remote_transcription_enabled") ?? false;
+  const remoteTranscriptionFallback =
+    getSetting("remote_transcription_fallback") ?? true;
 
   // click outside handler for language dropdown
   useEffect(() => {
@@ -246,6 +254,11 @@ export const ModelsSettings: React.FC = () => {
 
       <RetiredModelsNotice />
 
+      {/* Where transcription runs: local model or an external server */}
+      <SettingsGroup title={t("settings.remoteTranscription.title")}>
+        <RemoteTranscription descriptionMode="tooltip" grouped={true} />
+      </SettingsGroup>
+
       {/* Search bar — filter the catalog by name or description */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text/40 pointer-events-none" />
@@ -262,9 +275,18 @@ export const ModelsSettings: React.FC = () => {
         {/* Downloaded Models Section — header always visible so filter stays accessible */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-medium text-text/60">
-              {t("settings.models.yourModels")}
-            </h2>
+            <div>
+              <h2 className="text-sm font-medium text-text/60">
+                {t("settings.models.yourModels")}
+              </h2>
+              {remoteTranscriptionEnabled && (
+                <p className="text-xs text-text/50 mt-0.5">
+                  {remoteTranscriptionFallback
+                    ? t("settings.remoteTranscription.localModelsFallback")
+                    : t("settings.remoteTranscription.localModelsUnused")}
+                </p>
+              )}
+            </div>
             <div className="flex items-center gap-2">
               {/* Rescan local sources for models added outside Handy */}
               <button

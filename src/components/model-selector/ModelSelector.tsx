@@ -4,6 +4,7 @@ import { listen } from "@tauri-apps/api/event";
 import { commands } from "@/bindings";
 import { getTranslatedModelName } from "../../lib/utils/modelTranslation";
 import { useModelStore } from "../../stores/modelStore";
+import { useSettings } from "../../hooks/useSettings";
 import ModelStatusButton from "./ModelStatusButton";
 import ModelDropdown from "./ModelDropdown";
 import DownloadProgressDisplay from "./DownloadProgressDisplay";
@@ -33,6 +34,9 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({ onError }) => {
     verifyingModels,
     selectModel,
   } = useModelStore();
+  const { getSetting } = useSettings();
+  const remoteTranscriptionEnabled =
+    getSetting("remote_transcription_enabled") ?? false;
 
   const [modelStatus, setModelStatus] = useState<ModelStatus>("unloaded");
   const [modelError, setModelError] = useState<string | null>(null);
@@ -202,7 +206,9 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({ onError }) => {
           ? getTranslatedModelName(currentModelInfo, t)
           : t("modelSelector.modelUnloaded");
       case "none":
-        return t("modelSelector.noModelDownloadRequired");
+        return remoteTranscriptionEnabled
+          ? t("modelSelector.remoteServer")
+          : t("modelSelector.noModelDownloadRequired");
       default:
         return currentModelInfo
           ? getTranslatedModelName(currentModelInfo, t)

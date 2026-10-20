@@ -26,6 +26,11 @@
     "showFewerModels": "간략히 표시",
     "recommended": "추천",
     "customModelDescription": "공식 지원되지 않음",
+    "remoteServer": {
+      "title": "또는 전사 서버 사용",
+      "description": "메모리가 부족하신가요? 모델을 다운로드하는 대신 OpenAI 호환 Whisper 서버로 녹음을 보내세요.",
+      "continue": "서버로 계속"
+    },
     "migration": {
       "title": "모델 업데이트가 필요합니다",
       "description": "Handy가 이제 새로운 종류의 모델을 사용합니다. 계속 음성 인식을 사용하려면 새 버전을 다운로드하세요. 이전 버전은 삭제됩니다.",
@@ -104,6 +109,7 @@
     "modelError": "모델 오류",
     "modelUnloaded": "모델 언로드됨",
     "noModelDownloadRequired": "모델 없음 - 다운로드 필요",
+    "remoteServer": "외부 서버",
     "deleteModel": "{{modelName}} 삭제",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "취소",
@@ -228,6 +234,34 @@
       "rescan": {
         "label": "다시 스캔",
         "tooltip": "Handy 외부에서 모델 폴더 또는 Hugging Face 캐시에 추가된 모델을 다시 스캔합니다"
+      }
+    },
+    "remoteTranscription": {
+      "title": "전사 서버",
+      "localModelsFallback": "서버에 연결할 수 없으면 Handy는 아래의 활성 모델을 사용합니다.",
+      "localModelsUnused": "외부 서버가 켜져 있는 동안에는 사용되지 않습니다. 서버에 연결할 수 없을 때 로컬 모델을 사용하려면 대체 기능을 켜세요.",
+      "enabled": {
+        "label": "외부 서버 사용",
+        "description": "로컬 모델을 불러오는 대신 OpenAI 호환 Whisper 서버로 녹음을 보냅니다. 해당 서버가 이미 실행 중이면 메모리를 절약할 수 있습니다."
+      },
+      "url": {
+        "title": "서버 URL",
+        "description": "/v1을 포함한 API 기본 URL입니다. Handy는 {URL}/audio/transcriptions로 전송합니다."
+      },
+      "apiKey": {
+        "title": "API 키",
+        "description": "선택 사항입니다. Authorization 헤더에 Bearer 토큰으로 전송됩니다. 인증이 없는 서버라면 비워 두세요.",
+        "placeholder": "선택 사항"
+      },
+      "fallback": {
+        "label": "로컬 모델로 대체",
+        "description": "서버에 연결할 수 없거나 오류가 반환되면 로컬 모델로 전사합니다. Handy는 녹음이 시작되자마자 서버를 확인하므로 말하는 동안 로컬 모델을 미리 불러올 수 있습니다. 서버가 다시 응답하면 로컬 모델은 언로드됩니다."
+      },
+      "busyTimeout": {
+        "label": "서버가 바쁠 때 전환",
+        "description": "서버가 연결은 받아들이지만 이 시간 안에 짧은 테스트 요청에 응답하지 않으면(예: 긴 녹음을 아직 전사 중인 경우) Handy는 로컬 모델을 사용합니다. 서버가 다시 빠르게 응답하면 원래대로 전환합니다. 끄면 서버에 연결할 수 있는지만 확인합니다.",
+        "off": "끄기",
+        "seconds": "{{seconds}}초"
       }
     },
     "advanced": {

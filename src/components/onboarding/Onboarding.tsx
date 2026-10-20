@@ -2,12 +2,14 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { ChevronDown, ChevronLeft } from "lucide-react";
-import type { ModelInfo } from "@/bindings";
+import { commands, type ModelInfo } from "@/bindings";
 import type { ModelCardStatus } from "./ModelCard";
 import ModelCard, { isLegacySource } from "./ModelCard";
 import HandyTextLogo from "../icons/HandyTextLogo";
 import { Button } from "../ui/Button";
 import { useModelStore } from "../../stores/modelStore";
+import { useSettings } from "../../hooks/useSettings";
+import { RemoteTranscription } from "../settings/RemoteTranscription";
 
 interface OnboardingProps {
   onModelSelected: () => void;
@@ -34,7 +36,11 @@ const Onboarding: React.FC<OnboardingProps> = ({
   } = useModelStore();
   const [selectedModelId, setSelectedModelId] = useState<string | null>(null);
   const [showAll, setShowAll] = useState(false);
+  const [showRemote, setShowRemote] = useState(false);
   const hasStartedSelection = useRef(false);
+  const { getSetting } = useSettings();
+  const remoteEnabled = getSetting("remote_transcription_enabled") ?? false;
+  const remoteUrl = getSetting("remote_transcription_url") ?? "";
 
   const isBusy = selectedModelId !== null;
 
@@ -132,6 +138,18 @@ const Onboarding: React.FC<OnboardingProps> = ({
     const success = await cancelDownload(modelId);
     if (success) {
       setSelectedModelId(null);
+    }
+  };
+
+  // Skip the download: recordings go to the configured server instead.
+  const handleUseRemoteServer = async () => {
+    if (preview) return;
+
+    const result = await commands.markOnboardingCompleted();
+    if (result.status === "ok") {
+      onModelSelected();
+    } else {
+      toast.error(result.error);
     }
   };
 
@@ -276,6 +294,41 @@ const Onboarding: React.FC<OnboardingProps> = ({
                     showRecommended={false}
                   />
                 ))}
+            </div>
+          )}
+
+          {/* Low-RAM option: transcribe on a remote server, no download */}
+          {!onBack && (
+            <div className="space-y-3">
+              <div className="text-left">
+                <h2 className="text-sm font-medium text-text/60">
+                  {t("onboarding.remoteServer.title")}
+                </h2>
+              </div>
+              {showRemote ? (
+                <>
+                  <div className="text-left bg-background border border-mid-gray/20 rounded-lg divide-y divide-mid-gray/20">
+                    <RemoteTranscription descriptionMode="inline" grouped />
+                  </div>
+                  <Button
+                    variant="primary"
+                    size="md"
+                    onClick={handleUseRemoteServer}
+                    disabled={isBusy || !remoteEnabled || !remoteUrl.trim()}
+                  >
+                    {t("onboarding.remoteServer.continue")}
+                  </Button>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setShowRemote(true)}
+                  disabled={isBusy}
+                  className="w-full text-left rounded-lg border border-mid-gray/20 px-4 py-3 text-sm text-text/70 hover:border-logo-primary hover:text-text transition-colors"
+                >
+                  {t("onboarding.remoteServer.description")}
+                </button>
+              )}
             </div>
           )}
         </div>

@@ -26,6 +26,11 @@
     "showFewerModels": "Weniger Modelle anzeigen",
     "recommended": "Empfohlen",
     "customModelDescription": "Nicht offiziell unterstützt",
+    "remoteServer": {
+      "title": "Oder einen Transkriptionsserver verwenden",
+      "description": "Wenig Arbeitsspeicher? Sende Aufnahmen an einen OpenAI-kompatiblen Whisper-Server, statt ein Modell herunterzuladen.",
+      "continue": "Mit Server fortfahren"
+    },
     "migration": {
       "title": "Deine Modelle brauchen ein Update",
       "description": "Handy verwendet jetzt eine neuere Art von Modellen. Lade die neue Version herunter, um weiter zu transkribieren. Alte Versionen werden entfernt.",
@@ -104,6 +109,7 @@
     "modelError": "Modellfehler",
     "modelUnloaded": "Modell entladen",
     "noModelDownloadRequired": "Kein Modell - Download erforderlich",
+    "remoteServer": "Externer Server",
     "deleteModel": "{{modelName}} löschen",
     "downloadSpeed": "{{speed}} MB/s",
     "capabilities": {
@@ -148,6 +154,34 @@
       "rescan": {
         "label": "Neu scannen",
         "tooltip": "Erneut nach Modellen scannen, die außerhalb von Handy zum Modellordner oder Hugging-Face-Cache hinzugefügt wurden"
+      }
+    },
+    "remoteTranscription": {
+      "title": "Transkriptionsserver",
+      "localModelsFallback": "Handy verwendet das unten aktive Modell, wenn der Server nicht erreichbar ist.",
+      "localModelsUnused": "Wird nicht verwendet, solange der externe Server aktiv ist. Aktiviere den Fallback, um ein lokales Modell zu nutzen, wenn der Server nicht erreichbar ist.",
+      "enabled": {
+        "label": "Externen Server verwenden",
+        "description": "Sendet Aufnahmen an einen OpenAI-kompatiblen Whisper-Server, statt ein lokales Modell zu laden. Spart Speicher, wenn dieser Server bereits läuft."
+      },
+      "url": {
+        "title": "Server-URL",
+        "description": "Basis-URL der API, einschließlich /v1. Handy sendet an {URL}/audio/transcriptions."
+      },
+      "apiKey": {
+        "title": "API-Schlüssel",
+        "description": "Optional. Wird als Bearer-Token im Authorization-Header gesendet. Leer lassen für einen Server ohne Authentifizierung.",
+        "placeholder": "Optional"
+      },
+      "fallback": {
+        "label": "Auf lokales Modell zurückgreifen",
+        "description": "Wenn der Server nicht erreichbar ist oder einen Fehler zurückgibt, wird mit dem lokalen Modell transkribiert. Handy prüft den Server, sobald die Aufnahme beginnt, sodass das lokale Modell bereits lädt, während du sprichst. Sobald der Server wieder antwortet, wird das lokale Modell entladen."
+      },
+      "busyTimeout": {
+        "label": "Wechseln, wenn der Server ausgelastet ist",
+        "description": "Wenn der Server die Verbindung annimmt, aber eine kurze Testanfrage nicht innerhalb dieser Zeit beantwortet, etwa weil er noch eine lange Aufnahme transkribiert, verwendet Handy das lokale Modell. Sobald der Server wieder schnell antwortet, wird zurückgewechselt. „Aus“ prüft nur, ob der Server erreichbar ist.",
+        "off": "Aus",
+        "seconds": "{{seconds}} s"
       }
     },
     "general": {

@@ -26,6 +26,11 @@
     "showFewerModels": "Pokaż mniej modeli",
     "recommended": "Polecane",
     "customModelDescription": "Nieoficjalnie wspierane",
+    "remoteServer": {
+      "title": "Lub użyj serwera transkrypcji",
+      "description": "Mało pamięci? Wysyłaj nagrania do serwera Whisper zgodnego z OpenAI zamiast pobierać model.",
+      "continue": "Kontynuuj z serwerem"
+    },
     "migration": {
       "title": "Twoje modele wymagają aktualizacji",
       "description": "Handy używa teraz nowszego rodzaju modeli. Pobierz nową wersję, aby dalej korzystać z transkrypcji. Stare wersje zostaną usunięte.",
@@ -104,6 +109,7 @@
     "modelError": "Błąd modelu",
     "modelUnloaded": "Model wyładowany",
     "noModelDownloadRequired": "Brak modelu – wymagane pobranie",
+    "remoteServer": "Serwer zewnętrzny",
     "deleteModel": "Usuń {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
     "capabilities": {
@@ -148,6 +154,34 @@
       "rescan": {
         "label": "Skanuj ponownie",
         "tooltip": "Skanuj ponownie w poszukiwaniu modeli dodanych do folderu modeli lub pamięci podręcznej Hugging Face poza Handy"
+      }
+    },
+    "remoteTranscription": {
+      "title": "Serwer transkrypcji",
+      "localModelsFallback": "Handy używa poniższego aktywnego modelu, gdy serwer jest nieosiągalny.",
+      "localModelsUnused": "Nieużywany, gdy serwer zewnętrzny jest włączony. Włącz tryb zapasowy, aby używać modelu lokalnego, gdy serwer jest nieosiągalny.",
+      "enabled": {
+        "label": "Użyj serwera zewnętrznego",
+        "description": "Wysyłaj nagrania do serwera Whisper zgodnego z OpenAI zamiast ładować model lokalny. Oszczędza pamięć, gdy ten serwer już działa."
+      },
+      "url": {
+        "title": "Adres URL serwera",
+        "description": "Bazowy adres URL API, łącznie z /v1. Handy wysyła do {URL}/audio/transcriptions."
+      },
+      "apiKey": {
+        "title": "Klucz API",
+        "description": "Opcjonalny. Wysyłany jako token Bearer w nagłówku Authorization. Pozostaw puste dla serwera bez uwierzytelniania.",
+        "placeholder": "Opcjonalny"
+      },
+      "fallback": {
+        "label": "Użyj modelu lokalnego jako zapasowego",
+        "description": "Jeśli serwer jest nieosiągalny lub zwraca błąd, transkrypcja odbywa się modelem lokalnym. Handy sprawdza serwer zaraz po rozpoczęciu nagrywania, więc model lokalny może się ładować, gdy mówisz. Gdy serwer znów odpowiada, model lokalny zostaje zwolniony."
+      },
+      "busyTimeout": {
+        "label": "Przełącz, gdy serwer jest zajęty",
+        "description": "Gdy serwer przyjmuje połączenie, ale nie odpowiada na krótkie żądanie testowe w tym czasie, na przykład dlatego, że wciąż transkrybuje długie nagranie, Handy używa modelu lokalnego. Gdy serwer znów odpowiada szybko, Handy przełącza się z powrotem. Wyłączone sprawdza tylko, czy serwer jest osiągalny.",
+        "off": "Wyłączone",
+        "seconds": "{{seconds}} s"
       }
     },
     "general": {

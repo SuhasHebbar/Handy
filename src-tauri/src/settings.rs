@@ -1,4 +1,3 @@
-use crate::utils;
 use log::{debug, warn};
 use serde::de::{self, Visitor};
 use serde::{Deserialize, Deserializer, Serialize};
@@ -367,6 +366,35 @@ impl std::ops::DerefMut for SecretMap {
     }
 }
 
+/// A single secret whose `Debug` output hides the value, so logging the
+/// settings never leaks it.
+#[derive(Clone, Default, Serialize, Deserialize, Type)]
+#[serde(transparent)]
+pub struct SecretString(String);
+
+impl SecretString {
+    pub fn new(value: impl Into<String>) -> Self {
+        Self(value.into())
+    }
+}
+
+impl fmt::Debug for SecretString {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str(if self.0.is_empty() {
+            "\"\""
+        } else {
+            "[REDACTED]"
+        })
+    }
+}
+
+impl std::ops::Deref for SecretString {
+    type Target = str;
+    fn deref(&self) -> &str {
+        &self.0
+    }
+}
+
 /* still handy for composing the initial JSON in the store ------------- */
 /// The container-level `serde(default)` (backed by the `Default` impl below)
 /// guarantees every field — including ones added in the future — falls back to
@@ -535,6 +563,37 @@ pub struct AppSettings {
     /// `overlay_position` (position `none` → style `None`).
     #[serde(default = "default_overlay_style")]
     pub overlay_style: OverlayStyle,
+    /// Send recordings to an external OpenAI-compatible transcription server
+    /// (`POST {remote_transcription_url}/audio/transcriptions`) instead of
+    /// loading a local model.
+    #[serde(default)]
+    pub remote_transcription_enabled: bool,
+    /// Base URL of the OpenAI-compatible API, including the `/v1` part.
+    #[serde(default = "default_remote_transcription_url")]
+    pub remote_transcription_url: String,
+    /// Optional API key, sent as `Authorization: Bearer <key>`. Empty sends
+    /// no header, which is what a local server without auth expects.
+    #[serde(default)]
+    pub remote_transcription_api_key: SecretString,
+    /// When the remote server fails, load the local model and transcribe
+    /// with it instead of losing the recording.
+    #[serde(default = "default_remote_transcription_fallback")]
+    pub remote_transcription_fallback: bool,
+    /// Busy threshold for the recording-start probe; 0 turns it off.
+    #[serde(default = "default_remote_transcription_busy_timeout_ms")]
+    pub remote_transcription_busy_timeout_ms: u64,
+}
+
+fn default_remote_transcription_url() -> String {
+    "http://127.0.0.1:8000/v1".to_string()
+}
+
+fn default_remote_transcription_fallback() -> bool {
+    true
+}
+
+fn default_remote_transcription_busy_timeout_ms() -> u64 {
+    2000
 }
 
 fn default_model() -> String {
@@ -1022,6 +1081,11 @@ pub fn get_default_settings() -> AppSettings {
         vad_backend: VadBackend::default(),
         long_form_chunking: default_long_form_chunking(),
         overlay_style: default_overlay_style(),
+        remote_transcription_enabled: false,
+        remote_transcription_url: default_remote_transcription_url(),
+        remote_transcription_api_key: SecretString::default(),
+        remote_transcription_fallback: default_remote_transcription_fallback(),
+        remote_transcription_busy_timeout_ms: default_remote_transcription_busy_timeout_ms(),
     }
 }
 
@@ -1257,13 +1321,10 @@ fn apply_settings_migrations(
     updated
 }
 
-/// Update checks are forced off (without touching the persisted setting) when
-/// `HANDY_DISABLE_UPDATER` is set — e.g. by the Nix package, since self-update
-/// can't work against an immutable /nix/store install.
+/// Fork: always off. The updater would install upstream Handy releases over
+/// this build and silently drop the remote transcription option.
 pub fn update_checks_forced_disabled() -> bool {
-    use std::sync::OnceLock;
-    static IS_UPDATER_DISABLED: OnceLock<bool> = OnceLock::new();
-    *IS_UPDATER_DISABLED.get_or_init(|| utils::env_flag_enabled("HANDY_DISABLE_UPDATER"))
+    true
 }
 
 /// Effective updater state: the user's stored preference, overridden to `false`
@@ -1826,11 +1887,13 @@ mod tests {
         settings
             .post_process_api_keys
             .insert("empty_provider".to_string(), "".to_string());
+        settings.remote_transcription_api_key = SecretString::new("sk-remote-secret-key-24680");
 
         let debug_output = format!("{:?}", settings);
 
         assert!(!debug_output.contains("sk-proj-secret-key-12345"));
         assert!(!debug_output.contains("sk-ant-secret-key-67890"));
+        assert!(!debug_output.contains("sk-remote-secret-key-24680"));
         assert!(debug_output.contains("[REDACTED]"));
     }
 

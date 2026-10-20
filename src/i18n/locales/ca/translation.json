@@ -26,6 +26,11 @@
     "showFewerModels": "Mostra menys models",
     "recommended": "Recomanat",
     "customModelDescription": "Sense suport oficial",
+    "remoteServer": {
+      "title": "O fes servir un servidor de transcripció",
+      "description": "Poca memòria? Envia els enregistraments a un servidor Whisper compatible amb OpenAI en lloc de baixar un model.",
+      "continue": "Continua amb el servidor"
+    },
     "migration": {
       "title": "Cal actualitzar els vostres models",
       "description": "Handy ara utilitza un tipus de model més nou. Baixeu la versió nova per continuar transcrivint. Les versions antigues s'eliminaran.",
@@ -105,6 +110,7 @@
     "modelError": "Error del model",
     "modelUnloaded": "Model alliberat de la memòria",
     "noModelDownloadRequired": "No hi ha cap model: cal baixar-ne un",
+    "remoteServer": "Servidor extern",
     "deleteModel": "Suprimiu {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "Cancel·la",
@@ -200,6 +206,34 @@
         "tooltip": "Torna a cercar models afegits a la carpeta de models o a la memòria cau de Hugging Face des de fora del Handy"
       },
       "noModelsMatch": "Cap model no coincideix amb aquest filtre."
+    },
+    "remoteTranscription": {
+      "title": "Servidor de transcripció",
+      "localModelsFallback": "El Handy fa servir el model actiu de sota quan no es pot accedir al servidor.",
+      "localModelsUnused": "No s'utilitza mentre el servidor extern està activat. Activa l'alternativa per fer servir un model local quan no es pugui accedir al servidor.",
+      "enabled": {
+        "label": "Utilitza un servidor extern",
+        "description": "Envia els enregistraments a un servidor Whisper compatible amb OpenAI en lloc de carregar un model local. Estalvia memòria quan aquest servidor ja funciona."
+      },
+      "url": {
+        "title": "URL del servidor",
+        "description": "URL base de l'API, inclòs /v1. El Handy envia a {URL}/audio/transcriptions."
+      },
+      "apiKey": {
+        "title": "Clau d'API",
+        "description": "Opcional. S'envia com a testimoni Bearer a la capçalera Authorization. Deixa-la buida per a un servidor sense autenticació.",
+        "placeholder": "Opcional"
+      },
+      "fallback": {
+        "label": "Recorre al model local",
+        "description": "Si no es pot accedir al servidor o retorna un error, es transcriu amb el model local. El Handy comprova el servidor tan bon punt comença l'enregistrament, de manera que el model local ja es pot carregar mentre parles. Quan el servidor torna a respondre, el model local es descarrega."
+      },
+      "busyTimeout": {
+        "label": "Canvia quan el servidor estigui ocupat",
+        "description": "Si el servidor accepta la connexió però no respon a una breu sol·licitud de prova dins d'aquest temps, per exemple perquè encara transcriu un enregistrament llarg, el Handy fa servir el model local. Quan el servidor torna a respondre ràpidament, hi torna. Desactivat només comprova si es pot accedir al servidor.",
+        "off": "Desactivat",
+        "seconds": "{{seconds}} s"
+      }
     },
     "sound": {
       "title": "So",

@@ -138,6 +138,7 @@ pub fn switch_active_model(app: &AppHandle, model_id: &str) -> Result<(), String
 
     let settings = get_settings(app);
     let unload_timeout = settings.model_unload_timeout;
+    let remote_transcription_enabled = settings.remote_transcription_enabled;
     let old_model = settings.selected_model.clone();
     let old_onboarding_completed = settings.onboarding_completed;
 
@@ -150,8 +151,9 @@ pub fn switch_active_model(app: &AppHandle, model_id: &str) -> Result<(), String
     write_settings(app, settings);
 
     // Skip eager loading if unload is set to "Immediately" — the model
-    // will be loaded on-demand during the next transcription.
-    if unload_timeout == ModelUnloadTimeout::Immediately {
+    // will be loaded on-demand during the next transcription. Same while a
+    // remote server transcribes: the local model only loads as a fallback.
+    if unload_timeout == ModelUnloadTimeout::Immediately || remote_transcription_enabled {
         // Notify frontend — load_model won't be called so no events
         // would otherwise be emitted.
         let _ = app.emit(
@@ -164,8 +166,13 @@ pub fn switch_active_model(app: &AppHandle, model_id: &str) -> Result<(), String
             },
         );
         log::info!(
-            "Model selection changed to {} (not loading — unload set to Immediately).",
-            model_id
+            "Model selection changed to {} (not loading — {}).",
+            model_id,
+            if remote_transcription_enabled {
+                "remote transcription is enabled"
+            } else {
+                "unload set to Immediately"
+            }
         );
         return Ok(());
     }

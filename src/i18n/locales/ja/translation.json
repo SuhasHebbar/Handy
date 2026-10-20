@@ -26,6 +26,11 @@
     "showFewerModels": "表示を減らす",
     "recommended": "おすすめ",
     "customModelDescription": "公式サポート対象外",
+    "remoteServer": {
+      "title": "または文字起こしサーバーを使用",
+      "description": "メモリが少ない場合は、モデルをダウンロードする代わりに OpenAI 互換の Whisper サーバーへ録音を送信できます。",
+      "continue": "サーバーで続行"
+    },
     "migration": {
       "title": "モデルの更新が必要です",
       "description": "Handy は新しい種類のモデルを使用するようになりました。文字起こしを続けるには、新しいバージョンをダウンロードしてください。古いバージョンは削除されます。",
@@ -104,6 +109,7 @@
     "modelError": "モデルエラー",
     "modelUnloaded": "モデルがアンロードされました",
     "noModelDownloadRequired": "モデルなし - ダウンロードが必要",
+    "remoteServer": "外部サーバー",
     "deleteModel": "{{modelName}}を削除",
     "downloadSpeed": "{{speed}} MB/s",
     "capabilities": {
@@ -148,6 +154,34 @@
       "rescan": {
         "label": "再スキャン",
         "tooltip": "Handy を使わずに models フォルダーまたは Hugging Face キャッシュに追加されたモデルを再スキャンします"
+      }
+    },
+    "remoteTranscription": {
+      "title": "文字起こしサーバー",
+      "localModelsFallback": "サーバーに接続できない場合、Handy は下のアクティブなモデルを使用します。",
+      "localModelsUnused": "外部サーバーがオンの間は使用されません。サーバーに接続できないときにローカルモデルを使うには、フォールバックをオンにしてください。",
+      "enabled": {
+        "label": "外部サーバーを使用",
+        "description": "ローカルモデルを読み込む代わりに、OpenAI 互換の Whisper サーバーへ録音を送信します。そのサーバーがすでに動作している場合はメモリを節約できます。"
+      },
+      "url": {
+        "title": "サーバー URL",
+        "description": "/v1 を含む API のベース URL。Handy は {URL}/audio/transcriptions に送信します。"
+      },
+      "apiKey": {
+        "title": "API キー",
+        "description": "任意。Authorization ヘッダーの Bearer トークンとして送信されます。認証のないサーバーでは空欄のままにしてください。",
+        "placeholder": "任意"
+      },
+      "fallback": {
+        "label": "ローカルモデルにフォールバック",
+        "description": "サーバーに接続できない場合やエラーが返された場合は、ローカルモデルで文字起こしします。Handy は録音開始と同時にサーバーを確認するため、話している間にローカルモデルを読み込めます。サーバーが再び応答すると、ローカルモデルはアンロードされます。"
+      },
+      "busyTimeout": {
+        "label": "サーバーが混雑しているときに切り替え",
+        "description": "サーバーが接続を受け付けても、この時間内に短いテストリクエストに応答しない場合（長い録音をまだ文字起こし中など）、Handy はローカルモデルを使用します。サーバーが再びすぐに応答するようになると元に戻ります。オフの場合はサーバーに接続できるかだけを確認します。",
+        "off": "オフ",
+        "seconds": "{{seconds}} 秒"
       }
     },
     "general": {

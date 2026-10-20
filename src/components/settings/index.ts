@@ -29,6 +29,7 @@ export { FillerWordRemoval } from "./FillerWordRemoval";
 export { ChineseScriptSetting } from "./ChineseScript";
 export { AppDataDirectory } from "./AppDataDirectory";
 export { ModelUnloadTimeoutSetting } from "./ModelUnloadTimeout";
+export { RemoteTranscription } from "./RemoteTranscription";
 export { StartHidden } from "./StartHidden";
 export { HistoryLimit } from "./HistoryLimit";
 export { RecordingRetentionPeriodSelector } from "./RecordingRetentionPeriod";

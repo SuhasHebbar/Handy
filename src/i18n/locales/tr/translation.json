@@ -26,6 +26,11 @@
     "showFewerModels": "Daha az model göster",
     "recommended": "Önerilen",
     "customModelDescription": "Resmi olarak desteklenmiyor",
+    "remoteServer": {
+      "title": "Ya da bir Transkripsiyon Sunucusu Kullanın",
+      "description": "Bellek az mı? Model indirmek yerine kayıtları OpenAI uyumlu bir Whisper sunucusuna gönderin.",
+      "continue": "Sunucuyla Devam Et"
+    },
     "migration": {
       "title": "Modellerinizin güncellenmesi gerekiyor",
       "description": "Handy artık daha yeni bir model türü kullanıyor. Transkripsiyona devam etmek için yeni sürümü indirin. Eski sürümler kaldırılacak.",
@@ -103,6 +108,7 @@
     "modelError": "Model Hatası",
     "modelUnloaded": "Model Boşaltıldı",
     "noModelDownloadRequired": "Model Yok – İndirme Gerekli",
+    "remoteServer": "Harici Sunucu",
     "deleteModel": "{{modelName}} Sil",
     "switching": "Değiştiriliyor...",
     "downloadSpeed": "{{speed}} MB/s",
@@ -148,6 +154,34 @@
       "rescan": {
         "label": "Yeniden Tara",
         "tooltip": "Handy dışında modeller klasörüne veya Hugging Face önbelleğine eklenen modelleri yeniden tara"
+      }
+    },
+    "remoteTranscription": {
+      "title": "Transkripsiyon Sunucusu",
+      "localModelsFallback": "Sunucuya ulaşılamadığında Handy aşağıdaki etkin modeli kullanır.",
+      "localModelsUnused": "Harici sunucu açıkken kullanılmaz. Sunucuya ulaşılamadığında yerel model kullanmak için yedeği açın.",
+      "enabled": {
+        "label": "Harici Sunucu Kullan",
+        "description": "Kayıtları yerel model yüklemek yerine OpenAI uyumlu bir Whisper sunucusuna gönderir. Bu sunucu zaten çalışıyorsa bellek tasarrufu sağlar."
+      },
+      "url": {
+        "title": "Sunucu URL'si",
+        "description": "/v1 dahil API'nin temel URL'si. Handy {URL}/audio/transcriptions adresine gönderir."
+      },
+      "apiKey": {
+        "title": "API Anahtarı",
+        "description": "İsteğe bağlı. Authorization başlığında Bearer belirteci olarak gönderilir. Kimlik doğrulaması olmayan bir sunucu için boş bırakın.",
+        "placeholder": "İsteğe bağlı"
+      },
+      "fallback": {
+        "label": "Yerel Modele Geri Dön",
+        "description": "Sunucuya ulaşılamazsa veya bir hata döndürürse yerel modelle transkripsiyon yapılır. Handy kayıt başlar başlamaz sunucuyu kontrol eder, böylece siz konuşurken yerel model yüklenebilir. Sunucu yeniden yanıt verdiğinde yerel model bellekten kaldırılır."
+      },
+      "busyTimeout": {
+        "label": "Sunucu Meşgulken Geçiş Yap",
+        "description": "Sunucu bağlantıyı kabul edip kısa bir test isteğine bu süre içinde yanıt vermezse, örneğin hâlâ uzun bir kaydı yazıya döküyorsa, Handy yerel modeli kullanır. Sunucu yeniden hızlı yanıt verdiğinde geri geçer. Kapalı yalnızca sunucuya ulaşılıp ulaşılamadığını kontrol eder.",
+        "off": "Kapalı",
+        "seconds": "{{seconds}} sn"
       }
     },
     "general": {

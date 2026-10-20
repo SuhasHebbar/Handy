@@ -26,6 +26,11 @@
     "showFewerModels": "Tampilkan lebih sedikit model",
     "recommended": "Direkomendasikan",
     "customModelDescription": "Tidak didukung secara resmi",
+    "remoteServer": {
+      "title": "Atau Gunakan Server Transkripsi",
+      "description": "Memori terbatas? Kirim rekaman ke server Whisper yang kompatibel dengan OpenAI alih-alih mengunduh model.",
+      "continue": "Lanjutkan dengan Server"
+    },
     "migration": {
       "title": "Model Anda perlu diperbarui",
       "description": "Handy kini menggunakan jenis model yang lebih baru. Unduh versi baru untuk terus mentranskripsi. Versi lama akan dihapus.",
@@ -105,6 +110,7 @@
     "modelError": "Kesalahan Model",
     "modelUnloaded": "Model Dikeluarkan dari Memori",
     "noModelDownloadRequired": "Model Belum Tersedia — Perlu Diunduh",
+    "remoteServer": "Server Eksternal",
     "deleteModel": "Hapus {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "Batal",
@@ -200,6 +206,34 @@
         "tooltip": "Pindai ulang model yang ditambahkan ke folder model atau cache Hugging Face dari luar Handy"
       },
       "noModelsMatch": "Tidak ada model yang cocok dengan kriteria ini."
+    },
+    "remoteTranscription": {
+      "title": "Server Transkripsi",
+      "localModelsFallback": "Handy menggunakan model aktif di bawah saat server tidak dapat dijangkau.",
+      "localModelsUnused": "Tidak digunakan selama server eksternal aktif. Aktifkan cadangan untuk menggunakan model lokal saat server tidak dapat dijangkau.",
+      "enabled": {
+        "label": "Gunakan Server Eksternal",
+        "description": "Kirim rekaman ke server Whisper yang kompatibel dengan OpenAI alih-alih memuat model lokal. Menghemat memori jika server tersebut sudah berjalan."
+      },
+      "url": {
+        "title": "URL Server",
+        "description": "URL dasar API, termasuk /v1. Handy mengirim ke {URL}/audio/transcriptions."
+      },
+      "apiKey": {
+        "title": "Kunci API",
+        "description": "Opsional. Dikirim sebagai token Bearer di header Authorization. Biarkan kosong untuk server tanpa autentikasi.",
+        "placeholder": "Opsional"
+      },
+      "fallback": {
+        "label": "Gunakan Model Lokal sebagai Cadangan",
+        "description": "Jika server tidak dapat dijangkau atau mengembalikan galat, transkripsi dilakukan dengan model lokal. Handy memeriksa server begitu perekaman dimulai, sehingga model lokal sudah bisa dimuat saat Anda berbicara. Setelah server merespons lagi, model lokal dilepas dari memori."
+      },
+      "busyTimeout": {
+        "label": "Beralih Saat Server Sibuk",
+        "description": "Jika server menerima koneksi tetapi tidak menjawab permintaan uji singkat dalam waktu ini, misalnya karena masih mentranskripsi rekaman panjang, Handy menggunakan model lokal. Setelah server kembali merespons dengan cepat, Handy beralih kembali. Mati hanya memeriksa apakah server dapat dijangkau.",
+        "off": "Mati",
+        "seconds": "{{seconds}} dtk"
+      }
     },
     "sound": {
       "title": "Suara",

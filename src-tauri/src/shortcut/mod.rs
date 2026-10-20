@@ -1494,6 +1494,83 @@ pub async fn get_available_accelerators(
     .expect("get_available_accelerators panicked")
 }
 
+#[tauri::command]
+#[specta::specta]
+pub fn change_remote_transcription_enabled_setting(
+    app: AppHandle,
+    enabled: bool,
+) -> Result<(), String> {
+    let mut settings = settings::get_settings(&app);
+    settings.remote_transcription_enabled = enabled;
+    settings::write_settings(&app, settings);
+
+    // The server holds the model now; free the local one right away.
+    if enabled {
+        let tm =
+            app.state::<std::sync::Arc<crate::managers::transcription::TranscriptionManager>>();
+        if tm.is_model_loaded() {
+            tm.unload_model().map_err(|e| e.to_string())?;
+        }
+    }
+    Ok(())
+}
+
+#[tauri::command]
+#[specta::specta]
+pub fn change_remote_transcription_url_setting(app: AppHandle, url: String) -> Result<(), String> {
+    let mut settings = settings::get_settings(&app);
+    settings.remote_transcription_url = url.trim().to_string();
+    settings::write_settings(&app, settings);
+    Ok(())
+}
+
+#[tauri::command]
+#[specta::specta]
+pub fn change_remote_transcription_api_key_setting(
+    app: AppHandle,
+    api_key: String,
+) -> Result<(), String> {
+    let mut settings = settings::get_settings(&app);
+    settings.remote_transcription_api_key = settings::SecretString::new(api_key.trim());
+    settings::write_settings(&app, settings);
+    Ok(())
+}
+
+#[tauri::command]
+#[specta::specta]
+pub fn change_remote_transcription_fallback_setting(
+    app: AppHandle,
+    enabled: bool,
+) -> Result<(), String> {
+    let mut settings = settings::get_settings(&app);
+    settings.remote_transcription_fallback = enabled;
+    settings::write_settings(&app, settings);
+    Ok(())
+}
+
+#[tauri::command]
+#[specta::specta]
+pub fn change_remote_transcription_busy_timeout_ms_setting(
+    app: AppHandle,
+    timeout_ms: u64,
+) -> Result<(), String> {
+    let mut settings = settings::get_settings(&app);
+    settings.remote_transcription_busy_timeout_ms = timeout_ms;
+    settings::write_settings(&app, settings);
+    Ok(())
+}
+
+/// Finishes onboarding without selecting a local model, for users who set up
+/// a remote transcription server instead.
+#[tauri::command]
+#[specta::specta]
+pub fn mark_onboarding_completed(app: AppHandle) -> Result<(), String> {
+    let mut settings = settings::get_settings(&app);
+    settings.onboarding_completed = true;
+    settings::write_settings(&app, settings);
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use handy_keys::Hotkey;

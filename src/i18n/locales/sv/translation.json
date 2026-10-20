@@ -26,6 +26,11 @@
     "showFewerModels": "Visa färre modeller",
     "recommended": "Rekommenderat",
     "customModelDescription": "Stöds inte officiellt",
+    "remoteServer": {
+      "title": "Eller använd en transkriptionsserver",
+      "description": "Lite minne? Skicka inspelningar till en OpenAI-kompatibel Whisper-server i stället för att ladda ner en modell.",
+      "continue": "Fortsätt med server"
+    },
     "migration": {
       "title": "Dina modeller behöver uppdateras",
       "description": "Handy använder nu en nyare typ av modell. Ladda ner den nya versionen för att fortsätta transkribera. Gamla versioner kommer att tas bort.",
@@ -104,6 +109,7 @@
     "modelError": "Modellfel",
     "modelUnloaded": "Modell avlastad",
     "noModelDownloadRequired": "Ingen modell - Nedladdning krävs",
+    "remoteServer": "Extern server",
     "deleteModel": "Ta bort {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "Avbryt",
@@ -199,6 +205,34 @@
       "rescan": {
         "label": "Skanna om",
         "tooltip": "Skanna om efter modeller som lagts till i modellmappen eller Hugging Face-cachen utanför Handy"
+      }
+    },
+    "remoteTranscription": {
+      "title": "Transkriptionsserver",
+      "localModelsFallback": "Handy använder den aktiva modellen nedan när servern inte kan nås.",
+      "localModelsUnused": "Används inte medan den externa servern är på. Slå på reservläget för att använda en lokal modell när servern inte kan nås.",
+      "enabled": {
+        "label": "Använd extern server",
+        "description": "Skicka inspelningar till en OpenAI-kompatibel Whisper-server i stället för att ladda en lokal modell. Sparar minne när servern redan körs."
+      },
+      "url": {
+        "title": "Server-URL",
+        "description": "API:ets bas-URL, inklusive /v1. Handy skickar till {URL}/audio/transcriptions."
+      },
+      "apiKey": {
+        "title": "API-nyckel",
+        "description": "Valfri. Skickas som Bearer-token i Authorization-huvudet. Lämna tom för en server utan autentisering.",
+        "placeholder": "Valfri"
+      },
+      "fallback": {
+        "label": "Använd lokal modell som reserv",
+        "description": "Om servern inte kan nås eller returnerar ett fel transkriberas med den lokala modellen. Handy kontrollerar servern så fort inspelningen börjar, så att den lokala modellen kan laddas medan du pratar. När servern svarar igen laddas den lokala modellen ur."
+      },
+      "busyTimeout": {
+        "label": "Byt när servern är upptagen",
+        "description": "När servern accepterar anslutningen men inte svarar på en kort testförfrågan inom denna tid, till exempel för att den fortfarande transkriberar en lång inspelning, använder Handy den lokala modellen. När servern svarar snabbt igen byter Handy tillbaka. Av kontrollerar bara om servern kan nås.",
+        "off": "Av",
+        "seconds": "{{seconds}} s"
       }
     },
     "sound": {
