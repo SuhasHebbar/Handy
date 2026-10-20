@@ -1,4 +1,11 @@
-> A limited fork of cjpais/Handy to add Model API support for devices with low RAM.
+> **This is a fork of [Handy](https://github.com/cjpais/Handy)** that can also send recordings to an external, OpenAI-compatible Whisper server (for example faster-whisper-server, speaches or a whisper.cpp server) instead of loading a model on your own machine. Useful for devices with little RAM.
+>
+> - Turn it on under **Models → Transcription Server**. Set the server URL (including `/v1`) and, if needed, an API key.
+> - If the server can't be reached or is busy, Handy falls back to the local model (when one is downloaded).
+> - With the server off, it behaves like upstream Handy and works completely offline. **With the server on, audio leaves your computer** and goes to the server you configured.
+> - The built-in updater is disabled, since it would install upstream Handy over this build. Builds are unsigned: see [FORK.md](FORK.md).
+>
+> Report issues with this feature [here](https://github.com/SuhasHebbar/Handy/issues), not upstream.
 
 # Handy
 

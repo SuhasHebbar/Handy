@@ -33,3 +33,18 @@ The settings window is destroyed on close, not hidden, because a hidden window k
 - With a tray icon, closing the `main` window destroys it and `show_main_window` rebuilds it via `build_main_window` on demand. Without a tray (disabled or `--no-tray`) the window is hidden but kept alive, as upstream does
 - The app routinely runs with no windows, so `RunEvent::ExitRequested { code: None }` is prevented; only an explicit exit (`code: Some`) ends the process
 - The `recording_overlay` webview would also keep a WebKit process alive, so it is not created at startup while the overlay style is `None` (`initialize_core_logic` skips it) and `change_overlay_style_setting` creates it on demand when the style is enabled. Switching to `None` leaves the window untouched (neither hidden nor destroyed); destroying a live overlay window crashed the app (GTK layer shell), so its webview stays until restart
+
+## Builds and CI
+
+- Installers are unsigned. Windows shows a SmartScreen warning on first launch. On macOS, allow the first launch under System Settings → Privacy & Security → Open Anyway, or run `xattr -dr com.apple.quarantine /Applications/Handy.app`
+- `tauri.conf.json` has `createUpdaterArtifacts` off and no Windows `signCommand`, since the fork has no signing secrets. `build.yml` has a separate unsigned macOS build step
+- `fork-build.yml` is the only automatic build: it runs on push to `main` for macOS Apple Silicon only. Run it manually with "all-platforms" to also build macOS Intel, Linux and Windows
+- `main-build.yml` and `nix-check.yml` (they need upstream's signing and Cachix secrets), `build-test.yml`, `pr-test-build.yml` and `release.yml` are manual-only
+
+## Upstream Sync
+
+`upstream-sync.yml` runs daily (or manually, with an optional `tag` input), merges the newest upstream `vX.Y.Z` tag into an `upstream-sync/<tag>` branch and opens a PR, or an issue listing the conflicted files. It never merges on its own. An optional `SYNC_TOKEN` PAT (repo + workflow scope) lets it touch workflow files and start checks.
+
+To sync by hand: `git fetch upstream --tags && git merge vX.Y.Z`, resolve conflicts (usually `transcription.rs`, `settings.rs`, `lib.rs`), and keep the remote transcription code.
+
+Never use "Discard commits" in GitHub's "Sync fork" button: it resets `main` to upstream and drops the remote transcription feature.

@@ -1,0 +1,39 @@
+name: "Fork Build"
+
+# Unsigned installers for this fork. The automatic build on push to main is
+# macOS Apple Silicon only (.dmg, ad-hoc signed, not notarized). Run it by hand
+# with "all-platforms" to also build macOS Intel, Linux .deb and Windows.
+# Download the results from the run's artifacts.
+on:
+  workflow_dispatch:
+    inputs:
+      all-platforms:
+        description: "Also build macOS Intel, Linux and Windows"
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "src-tauri/**"
+      - "package.json"
+      - "bun.lock"
+      - ".github/workflows/build.yml"
+      - ".github/workflows/fork-build.yml"
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(inputs.all-platforms && '[{"platform":"macos-26","args":"--target aarch64-apple-darwin","target":"aarch64-apple-darwin"},{"platform":"macos-latest","args":"--target x86_64-apple-darwin","target":"x86_64-apple-darwin"},{"platform":"ubuntu-22.04","args":"--bundles deb","target":"x86_64-unknown-linux-gnu"},{"platform":"windows-latest","args":"","target":"x86_64-pc-windows-msvc"}]' || '[{"platform":"macos-26","args":"--target aarch64-apple-darwin","target":"aarch64-apple-darwin"}]') }}
+    uses: ./.github/workflows/build.yml
+    with:
+      platform: ${{ matrix.platform }}
+      target: ${{ matrix.target }}
+      build-args: ${{ matrix.args }}
+      sign-binaries: false
+      asset-prefix: "handy-fork"
+      upload-artifacts: true
