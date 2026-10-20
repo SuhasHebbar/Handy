@@ -740,6 +740,19 @@ pub fn change_overlay_style_setting(app: AppHandle, style: String) -> Result<(),
     // resumes) emitting on the next audio callback.
     crate::overlay::update_overlay_enabled_cache(parsed != OverlayStyle::None);
 
+    // The overlay webview is not created at startup while the overlay is
+    // disabled (it would keep a WebKit process alive), so create it on demand.
+    // It is never destroyed or hidden here: destroying a live overlay window
+    // (GTK layer shell) crashed the app.
+    if parsed != OverlayStyle::None {
+        let handle = app.clone();
+        let _ = app.run_on_main_thread(move || {
+            if handle.get_webview_window("recording_overlay").is_none() {
+                crate::utils::create_recording_overlay(&handle);
+            }
+        });
+    }
+
     // Reposition in case the window needs to re-center for the new style.
     crate::utils::update_overlay_position(&app);
 

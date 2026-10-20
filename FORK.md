@@ -23,3 +23,13 @@ This fork can send recordings to an OpenAI-compatible server instead of loading 
 - Remote mode disables live streaming (`actions.rs`) and eager local model loads on model selection (`commands/models.rs`)
 - The API key is a `SecretString`, so `Debug`-logging settings never prints it
 - The self-updater is forced off (`update_checks_forced_disabled()` always returns `true`), so upstream releases can't replace this build and drop the feature
+
+## Settings Window Lifecycle
+
+The settings window is destroyed on close, not hidden, because a hidden window keeps its WebKit process (~120 MB) resident even though the window is rarely open.
+
+**Implementation:** `lib.rs` (`build_main_window`, `show_main_window`, the `CloseRequested` and `ExitRequested` handlers), `shortcut/mod.rs` (`change_overlay_style_setting`)
+
+- With a tray icon, closing the `main` window destroys it and `show_main_window` rebuilds it via `build_main_window` on demand. Without a tray (disabled or `--no-tray`) the window is hidden but kept alive, as upstream does
+- The app routinely runs with no windows, so `RunEvent::ExitRequested { code: None }` is prevented; only an explicit exit (`code: Some`) ends the process
+- The `recording_overlay` webview would also keep a WebKit process alive, so it is not created at startup while the overlay style is `None` (`initialize_core_logic` skips it) and `change_overlay_style_setting` creates it on demand when the style is enabled. Switching to `None` leaves the window untouched (neither hidden nor destroyed); destroying a live overlay window crashed the app (GTK layer shell), so its webview stays until restart

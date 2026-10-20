@@ -96,7 +96,72 @@ fn build_console_filter() -> env_filter::Filter {
     builder.build()
 }
 
+/// Creates the (initially hidden) settings window. Built programmatically so
+/// we can set data_directory for portable mode (redirects the WebView cache to
+/// the portable Data dir). The window is destroyed on close to free the
+/// webview's memory, so this also runs again from `show_main_window`.
+fn build_main_window(app: &AppHandle) -> tauri::Result<()> {
+    let mut win_builder =
+        tauri::WebviewWindowBuilder::new(app, "main", tauri::WebviewUrl::App("/".into()))
+            .title("Handy")
+            .inner_size(680.0, 570.0)
+            .min_inner_size(680.0, 570.0)
+            .resizable(true)
+            .maximizable(true)
+            .visible(false);
+
+    if let Some(data_dir) = portable::data_dir() {
+        win_builder = win_builder.data_directory(data_dir.join("webview"));
+    }
+
+    // Only used on Windows, to disable WebView2 browser accelerators.
+    #[cfg_attr(not(target_os = "windows"), allow(unused_variables))]
+    let main_window = win_builder.build()?;
+
+    // Disable WebView2 browser accelerators (F5, F6, Ctrl+F, F12, ...).
+    // A settings window has no use for them, and pressing F6 while
+    // recording a shortcut was reported to turn the whole window white
+    // (cjpais/Handy#1940), likely by triggering WebView2 focus cycling.
+    // DevTools stays enabled; only the F12 accelerator is lost.
+    #[cfg(target_os = "windows")]
+    {
+        let _ = main_window.with_webview(|webview| unsafe {
+            use webview2_com::Microsoft::Web::WebView2::Win32::ICoreWebView2Settings3;
+            use windows::core::Interface;
+
+            let result = webview
+                .controller()
+                .CoreWebView2()
+                .and_then(|core| core.Settings())
+                .and_then(|settings| settings.cast::<ICoreWebView2Settings3>())
+                .and_then(|settings| settings.SetAreBrowserAcceleratorKeysEnabled(false));
+
+            if let Err(error) = result {
+                log::warn!("Failed to disable WebView2 browser accelerators: {error}");
+            }
+        });
+    }
+
+    // Apply the persisted appearance theme to the native title bar before
+    // the window is shown, so it matches the in-app palette without a flash
+    // of the wrong theme. See `apply_window_theme` for what this does per
+    // platform.
+    #[cfg(any(target_os = "windows", target_os = "macos"))]
+    shortcut::apply_window_theme(app, get_settings(app).theme);
+
+    Ok(())
+}
+
 fn show_main_window(app: &AppHandle) {
+    // The window is destroyed when closed (to free the webview), so it may
+    // need to be rebuilt first.
+    if app.get_webview_window("main").is_none() {
+        if let Err(e) = build_main_window(app) {
+            log::error!("Failed to recreate main window: {}", e);
+            return;
+        }
+    }
+
     if let Some(main_window) = app.get_webview_window("main") {
         if let Err(e) = main_window.unminimize() {
             log::error!("Failed to unminimize webview window: {}", e);
@@ -113,14 +178,7 @@ fn show_main_window(app: &AppHandle) {
                 log::error!("Failed to set activation policy to Regular: {}", e);
             }
         }
-        return;
     }
-
-    let webview_labels = app.webview_windows().keys().cloned().collect::<Vec<_>>();
-    log::error!(
-        "Main window not found. Webview labels: {:?}",
-        webview_labels
-    );
 }
 
 /// Choose the macOS activation policy the process *launches* with.
@@ -359,8 +417,12 @@ fn initialize_core_logic(app_handle: &AppHandle) {
     // tauri-plugin-autostart elsewhere)
     autostart::apply_autostart(app_handle, settings.autostart_enabled);
 
-    // Create the recording overlay window (hidden by default)
-    utils::create_recording_overlay(app_handle);
+    // Create the recording overlay window (hidden by default). Skipped when the
+    // overlay is disabled: its webview would otherwise keep a WebKit process
+    // alive. `change_overlay_style_setting` creates/destroys it on demand.
+    if settings.overlay_style != settings::OverlayStyle::None {
+        utils::create_recording_overlay(app_handle);
+    }
 }
 
 #[tauri::command]
@@ -946,57 +1008,9 @@ pub fn run(cli_args: CliArgs) {
                 return Ok(());
             }
 
-            // Create main window programmatically so we can set data_directory
-            // for portable mode (redirects WebView2 cache to portable Data dir)
-            let mut win_builder =
-                tauri::WebviewWindowBuilder::new(app, "main", tauri::WebviewUrl::App("/".into()))
-                    .title("Handy")
-                    .inner_size(680.0, 570.0)
-                    .min_inner_size(680.0, 570.0)
-                    .resizable(true)
-                    .maximizable(true)
-                    .visible(false);
-
-            if let Some(data_dir) = portable::data_dir() {
-                win_builder = win_builder.data_directory(data_dir.join("webview"));
-            }
-
-            // Only used on Windows, to disable WebView2 browser accelerators.
-            #[cfg_attr(not(target_os = "windows"), allow(unused_variables))]
-            let main_window = win_builder.build()?;
-
-            // Disable WebView2 browser accelerators (F5, F6, Ctrl+F, F12, ...).
-            // A settings window has no use for them, and pressing F6 while
-            // recording a shortcut was reported to turn the whole window white
-            // (cjpais/Handy#1940), likely by triggering WebView2 focus cycling.
-            // DevTools stays enabled; only the F12 accelerator is lost.
-            #[cfg(target_os = "windows")]
-            {
-                let _ = main_window.with_webview(|webview| unsafe {
-                    use webview2_com::Microsoft::Web::WebView2::Win32::ICoreWebView2Settings3;
-                    use windows::core::Interface;
-
-                    let result = webview
-                        .controller()
-                        .CoreWebView2()
-                        .and_then(|core| core.Settings())
-                        .and_then(|settings| settings.cast::<ICoreWebView2Settings3>())
-                        .and_then(|settings| settings.SetAreBrowserAcceleratorKeysEnabled(false));
-
-                    if let Err(error) = result {
-                        log::warn!("Failed to disable WebView2 browser accelerators: {error}");
-                    }
-                });
-            }
+            build_main_window(app.handle())?;
 
             let mut settings = get_settings(app.handle());
-
-            // Apply the persisted appearance theme to the native title bar before
-            // the window is shown, so it matches the in-app palette without a flash
-            // of the wrong theme. See `apply_window_theme` for what this does per
-            // platform.
-            #[cfg(any(target_os = "windows", target_os = "macos"))]
-            shortcut::apply_window_theme(app.handle(), settings.theme);
 
             // CLI --debug flag overrides debug_mode and log level (runtime-only, not persisted)
             if cli_args.debug {
@@ -1069,8 +1083,16 @@ pub fn run(cli_args: CliArgs) {
         })
         .on_window_event(|window, event| match event {
             tauri::WindowEvent::CloseRequested { api, .. } => {
-                api.prevent_close();
-                let _res = window.hide();
+                // Only the settings window is destroyed on close, to free its
+                // webview (~100+ MB); `show_main_window` rebuilds it. Without a
+                // tray the window stays hidden-but-alive, as before.
+                let tray_visible =
+                    get_settings(window.app_handle()).show_tray_icon
+                        && !window.app_handle().state::<CliArgs>().no_tray;
+                if window.label() != "main" || !tray_visible {
+                    api.prevent_close();
+                    let _res = window.hide();
+                }
 
                 #[cfg(target_os = "macos")]
                 {
@@ -1124,6 +1146,11 @@ pub fn run(cli_args: CliArgs) {
             }
             show_main_window(app);
         }
+        // The settings window is destroyed on close, so the app routinely runs
+        // with no windows; only an explicit exit (code: Some) should end it.
+        tauri::RunEvent::ExitRequested {
+            code: None, api, ..
+        } => api.prevent_exit(),
         // No transcription teardown on exit: transcribe.cpp runs only in the
         // worker process, which exits by itself as soon as this process's end
         // of its stdin closes, even if it is hung. Waiting on an unload here
