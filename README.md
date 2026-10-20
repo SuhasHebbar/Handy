@@ -5,6 +5,8 @@
 > - With the server off, it behaves like upstream Handy and works completely offline. **With the server on, audio leaves your computer** and goes to the server you configured.
 > - The built-in updater is disabled, since it would install upstream Handy over this build. Builds are unsigned: see [FORK.md](FORK.md).
 >
+> The external-server feature is ported from [Hyroniem/handy-remote](https://github.com/Hyroniem/handy-remote).
+>
 > Report issues with this feature [here](https://github.com/SuhasHebbar/Handy/issues), not upstream.
 
 # Handy

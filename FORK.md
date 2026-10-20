@@ -2,6 +2,10 @@
 
 This repository is a fork of [cjpais/Handy](https://github.com/cjpais/Handy). `AGENTS.md` tracks upstream and is left unchanged; everything specific to this fork is documented here.
 
+## Origin
+
+The remote transcription feature, its local fallback and server probing, the unsigned fork build workflow and the upstream sync workflow are ported from [Hyroniem/handy-remote](https://github.com/Hyroniem/handy-remote) (MIT, like Handy), adapted to current upstream Handy.
+
 ## Overview of fork changes
 
 - `managers/transcription.rs` processes speech either with the local engine or with a remote server (see [Remote Transcription](#remote-transcription))
@@ -43,7 +47,7 @@ The settings window is destroyed on close, not hidden, because a hidden window k
 
 ## Upstream Sync
 
-`upstream-sync.yml` runs daily (or manually, with an optional `tag` input), merges the newest upstream `vX.Y.Z` tag into an `upstream-sync/<tag>` branch and opens a PR, or an issue listing the conflicted files. It never merges on its own. An optional `SYNC_TOKEN` PAT (repo + workflow scope) lets it touch workflow files and start checks.
+`upstream-sync.yml` is manual-only (its daily schedule is off; run it with an optional `tag` input). It merges the newest upstream `vX.Y.Z` tag into an `upstream-sync/<tag>` branch and opens a PR, or an issue listing the conflicted files. It never merges on its own. An optional `SYNC_TOKEN` PAT (repo + workflow scope) lets it touch workflow files and start checks.
 
 To sync by hand: `git fetch upstream --tags && git merge vX.Y.Z`, resolve conflicts (usually `transcription.rs`, `settings.rs`, `lib.rs`), and keep the remote transcription code.
 

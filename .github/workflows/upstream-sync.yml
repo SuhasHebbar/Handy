@@ -1,6 +1,6 @@
 name: "Upstream Sync"
 
-# Looks daily for a new upstream release tag (vX.Y.Z on cjpais/Handy). When
+# Manual only (the daily schedule is off). Looks for a new upstream release tag (vX.Y.Z on cjpais/Handy). When
 # there is one, merges that tag into a branch upstream-sync/<tag>, opens a pull
 # request to main and starts Fork Build on the branch so the result is
 # compiled before anything lands on main. Nothing is merged into main
@@ -12,8 +12,6 @@ name: "Upstream Sync"
 # changes under .github/workflows, which the default token cannot push.
 
 on:
-  schedule:
-    - cron: "17 5 * * *"
   workflow_dispatch:
     inputs:
       tag:
