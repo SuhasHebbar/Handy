@@ -167,8 +167,14 @@ const settingUpdaters: {
     commands.changeRemoteTranscriptionUrlSetting(value as string),
   remote_transcription_api_key: (value) =>
     commands.changeRemoteTranscriptionApiKeySetting(value as string),
-  remote_transcription_fallback: (value) =>
-    commands.changeRemoteTranscriptionFallbackSetting(value as boolean),
+  remote_transcription_fallback: async (value) => {
+    // The backend refuses to enable fallback without a local model; throw so
+    // updateSetting reverts the optimistic toggle.
+    const result = await commands.changeRemoteTranscriptionFallbackSetting(
+      value as boolean,
+    );
+    if (result.status === "error") throw new Error(result.error);
+  },
   remote_transcription_busy_timeout_ms: (value) =>
     commands.changeRemoteTranscriptionBusyTimeoutMsSetting(value as number),
   post_process_selected_prompt_id: (value) =>

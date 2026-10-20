@@ -226,7 +226,8 @@
       },
       "fallback": {
         "label": "Recorrer ao modelo local",
-        "description": "Se o servidor não estiver acessível ou retornar um erro, transcreve com o modelo local. O Handy verifica o servidor assim que a gravação começa, para que o modelo local já possa carregar enquanto você fala. Quando o servidor voltar a responder, o modelo local é descarregado."
+        "description": "Se o servidor não estiver acessível ou retornar um erro, transcreve com o modelo local. O Handy verifica o servidor assim que a gravação começa, para que o modelo local já possa carregar enquanto você fala. Quando o servidor voltar a responder, o modelo local é descarregado.",
+        "needsModel": "Download and select a local model in the Models tab to use this."
       },
       "busyTimeout": {
         "label": "Alternar quando o servidor estiver ocupado",

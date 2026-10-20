@@ -1494,6 +1494,16 @@ pub async fn get_available_accelerators(
     .expect("get_available_accelerators panicked")
 }
 
+/// Whether `model_id` names a local model whose files are on disk, i.e. one
+/// the remote-transcription fallback could actually load.
+fn has_usable_local_model(app: &AppHandle, model_id: &str) -> bool {
+    !model_id.is_empty()
+        && app
+            .state::<std::sync::Arc<crate::managers::model::ModelManager>>()
+            .get_model_path(model_id)
+            .is_ok()
+}
+
 #[tauri::command]
 #[specta::specta]
 pub fn change_remote_transcription_enabled_setting(
@@ -1502,6 +1512,11 @@ pub fn change_remote_transcription_enabled_setting(
 ) -> Result<(), String> {
     let mut settings = settings::get_settings(&app);
     settings.remote_transcription_enabled = enabled;
+    // Fallback only works with a downloaded local model, so a remote-only
+    // setup starts with it off rather than "on" and doing nothing.
+    if enabled && !has_usable_local_model(&app, &settings.selected_model) {
+        settings.remote_transcription_fallback = false;
+    }
     settings::write_settings(&app, settings);
 
     // The server holds the model now; free the local one right away.
@@ -1543,6 +1558,9 @@ pub fn change_remote_transcription_fallback_setting(
     enabled: bool,
 ) -> Result<(), String> {
     let mut settings = settings::get_settings(&app);
+    if enabled && !has_usable_local_model(&app, &settings.selected_model) {
+        return Err("Fallback needs a downloaded local model".to_string());
+    }
     settings.remote_transcription_fallback = enabled;
     settings::write_settings(&app, settings);
     Ok(())

@@ -5,6 +5,7 @@ import { SettingContainer } from "../ui/SettingContainer";
 import { Input } from "../ui/Input";
 import { Slider } from "../ui/Slider";
 import { useSettings } from "../../hooks/useSettings";
+import { useModelStore } from "../../stores/modelStore";
 
 interface RemoteTranscriptionProps {
   descriptionMode?: "inline" | "tooltip";
@@ -19,7 +20,14 @@ export const RemoteTranscription: React.FC<RemoteTranscriptionProps> =
     const enabled = getSetting("remote_transcription_enabled") ?? false;
     const url = getSetting("remote_transcription_url") ?? "";
     const apiKey = getSetting("remote_transcription_api_key") ?? "";
-    const fallback = getSetting("remote_transcription_fallback") ?? true;
+    // Fallback loads the selected local model, so it needs one on disk.
+    const hasLocalModel = useModelStore(
+      (state) =>
+        state.models.find((m) => m.id === state.currentModel)?.is_downloaded ??
+        false,
+    );
+    const fallback =
+      (getSetting("remote_transcription_fallback") ?? true) && hasLocalModel;
     const busyTimeoutMs =
       getSetting("remote_transcription_busy_timeout_ms") ?? 2000;
     const [localUrl, setLocalUrl] = useState(url);
@@ -103,8 +111,13 @@ export const RemoteTranscription: React.FC<RemoteTranscriptionProps> =
               updateSetting("remote_transcription_fallback", enabled)
             }
             isUpdating={isUpdating("remote_transcription_fallback")}
+            disabled={!hasLocalModel}
             label={t("settings.remoteTranscription.fallback.label")}
-            description={t("settings.remoteTranscription.fallback.description")}
+            description={
+              hasLocalModel
+                ? t("settings.remoteTranscription.fallback.description")
+                : t("settings.remoteTranscription.fallback.needsModel")
+            }
             descriptionMode={descriptionMode}
             grouped={grouped}
           />

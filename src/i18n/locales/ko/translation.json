@@ -255,7 +255,8 @@
       },
       "fallback": {
         "label": "로컬 모델로 대체",
-        "description": "서버에 연결할 수 없거나 오류가 반환되면 로컬 모델로 전사합니다. Handy는 녹음이 시작되자마자 서버를 확인하므로 말하는 동안 로컬 모델을 미리 불러올 수 있습니다. 서버가 다시 응답하면 로컬 모델은 언로드됩니다."
+        "description": "서버에 연결할 수 없거나 오류가 반환되면 로컬 모델로 전사합니다. Handy는 녹음이 시작되자마자 서버를 확인하므로 말하는 동안 로컬 모델을 미리 불러올 수 있습니다. 서버가 다시 응답하면 로컬 모델은 언로드됩니다.",
+        "needsModel": "Download and select a local model in the Models tab to use this."
       },
       "busyTimeout": {
         "label": "서버가 바쁠 때 전환",

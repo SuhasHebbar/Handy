@@ -175,7 +175,8 @@
       },
       "fallback": {
         "label": "Záložně použít místní model",
-        "description": "Pokud server není dostupný nebo vrátí chybu, přepis proběhne místním modelem. Handy kontroluje server hned při zahájení nahrávání, takže se místní model může načítat, zatímco mluvíte. Jakmile server znovu odpoví, místní model se uvolní."
+        "description": "Pokud server není dostupný nebo vrátí chybu, přepis proběhne místním modelem. Handy kontroluje server hned při zahájení nahrávání, takže se místní model může načítat, zatímco mluvíte. Jakmile server znovu odpoví, místní model se uvolní.",
+        "needsModel": "Download and select a local model in the Models tab to use this."
       },
       "busyTimeout": {
         "label": "Přepnout, když je server zaneprázdněný",

@@ -175,7 +175,8 @@
       },
       "fallback": {
         "label": "Dự phòng bằng mô hình cục bộ",
-        "description": "Nếu không kết nối được máy chủ hoặc máy chủ trả về lỗi, Handy sẽ chuyển giọng nói bằng mô hình cục bộ. Handy kiểm tra máy chủ ngay khi bắt đầu ghi âm, nên mô hình cục bộ có thể tải trong lúc bạn nói. Khi máy chủ phản hồi trở lại, mô hình cục bộ sẽ được giải phóng."
+        "description": "Nếu không kết nối được máy chủ hoặc máy chủ trả về lỗi, Handy sẽ chuyển giọng nói bằng mô hình cục bộ. Handy kiểm tra máy chủ ngay khi bắt đầu ghi âm, nên mô hình cục bộ có thể tải trong lúc bạn nói. Khi máy chủ phản hồi trở lại, mô hình cục bộ sẽ được giải phóng.",
+        "needsModel": "Download and select a local model in the Models tab to use this."
       },
       "busyTimeout": {
         "label": "Chuyển khi máy chủ bận",

@@ -226,7 +226,8 @@
       },
       "fallback": {
         "label": "備援使用本機模型",
-        "description": "若無法連線伺服器或伺服器傳回錯誤，則使用本機模型轉錄。Handy 會在開始錄音時立即檢查伺服器，因此本機模型可在你說話時預先載入。伺服器恢復回應後，本機模型會被卸載。"
+        "description": "若無法連線伺服器或伺服器傳回錯誤，則使用本機模型轉錄。Handy 會在開始錄音時立即檢查伺服器，因此本機模型可在你說話時預先載入。伺服器恢復回應後，本機模型會被卸載。",
+        "needsModel": "Download and select a local model in the Models tab to use this."
       },
       "busyTimeout": {
         "label": "伺服器忙碌時切換",

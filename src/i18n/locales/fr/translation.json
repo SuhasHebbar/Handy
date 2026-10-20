@@ -175,7 +175,8 @@
       },
       "fallback": {
         "label": "Se replier sur le modèle local",
-        "description": "Si le serveur est injoignable ou renvoie une erreur, la transcription se fait avec le modèle local. Handy vérifie le serveur dès le début de l'enregistrement, afin que le modèle local puisse déjà se charger pendant que vous parlez. Dès que le serveur répond à nouveau, le modèle local est déchargé."
+        "description": "Si le serveur est injoignable ou renvoie une erreur, la transcription se fait avec le modèle local. Handy vérifie le serveur dès le début de l'enregistrement, afin que le modèle local puisse déjà se charger pendant que vous parlez. Dès que le serveur répond à nouveau, le modèle local est déchargé.",
+        "needsModel": "Download and select a local model in the Models tab to use this."
       },
       "busyTimeout": {
         "label": "Basculer quand le serveur est occupé",

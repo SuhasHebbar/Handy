@@ -226,7 +226,8 @@
       },
       "fallback": {
         "label": "Recorre al model local",
-        "description": "Si no es pot accedir al servidor o retorna un error, es transcriu amb el model local. El Handy comprova el servidor tan bon punt comença l'enregistrament, de manera que el model local ja es pot carregar mentre parles. Quan el servidor torna a respondre, el model local es descarrega."
+        "description": "Si no es pot accedir al servidor o retorna un error, es transcriu amb el model local. El Handy comprova el servidor tan bon punt comença l'enregistrament, de manera que el model local ja es pot carregar mentre parles. Quan el servidor torna a respondre, el model local es descarrega.",
+        "needsModel": "Download and select a local model in the Models tab to use this."
       },
       "busyTimeout": {
         "label": "Canvia quan el servidor estigui ocupat",

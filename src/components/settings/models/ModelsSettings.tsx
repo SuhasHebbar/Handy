@@ -64,7 +64,9 @@ export const ModelsSettings: React.FC = () => {
   const remoteTranscriptionEnabled =
     getSetting("remote_transcription_enabled") ?? false;
   const remoteTranscriptionFallback =
-    getSetting("remote_transcription_fallback") ?? true;
+    (getSetting("remote_transcription_fallback") ?? true) &&
+    (models.find((m: ModelInfo) => m.id === currentModel)?.is_downloaded ??
+      false);
 
   // click outside handler for language dropdown
   useEffect(() => {

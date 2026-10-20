@@ -100,6 +100,8 @@ pub async fn delete_model(
 
         let mut settings = get_settings(&app_handle);
         settings.selected_model = String::new();
+        // Nothing left to fall back on.
+        settings.remote_transcription_fallback = false;
         write_settings(&app_handle, settings);
     }
 

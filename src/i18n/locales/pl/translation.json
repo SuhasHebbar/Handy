@@ -175,7 +175,8 @@
       },
       "fallback": {
         "label": "Użyj modelu lokalnego jako zapasowego",
-        "description": "Jeśli serwer jest nieosiągalny lub zwraca błąd, transkrypcja odbywa się modelem lokalnym. Handy sprawdza serwer zaraz po rozpoczęciu nagrywania, więc model lokalny może się ładować, gdy mówisz. Gdy serwer znów odpowiada, model lokalny zostaje zwolniony."
+        "description": "Jeśli serwer jest nieosiągalny lub zwraca błąd, transkrypcja odbywa się modelem lokalnym. Handy sprawdza serwer zaraz po rozpoczęciu nagrywania, więc model lokalny może się ładować, gdy mówisz. Gdy serwer znów odpowiada, model lokalny zostaje zwolniony.",
+        "needsModel": "Download and select a local model in the Models tab to use this."
       },
       "busyTimeout": {
         "label": "Przełącz, gdy serwer jest zajęty",

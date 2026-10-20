@@ -175,7 +175,8 @@
       },
       "fallback": {
         "label": "回退到本地模型",
-        "description": "如果无法连接服务器或服务器返回错误，则使用本地模型转录。Handy 会在开始录音时立即检查服务器，因此本地模型可以在你说话时提前加载。服务器恢复响应后，本地模型会被卸载。"
+        "description": "如果无法连接服务器或服务器返回错误，则使用本地模型转录。Handy 会在开始录音时立即检查服务器，因此本地模型可以在你说话时提前加载。服务器恢复响应后，本地模型会被卸载。",
+        "needsModel": "Download and select a local model in the Models tab to use this."
       },
       "busyTimeout": {
         "label": "服务器繁忙时切换",

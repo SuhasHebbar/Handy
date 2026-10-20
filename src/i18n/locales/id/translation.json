@@ -226,7 +226,8 @@
       },
       "fallback": {
         "label": "Gunakan Model Lokal sebagai Cadangan",
-        "description": "Jika server tidak dapat dijangkau atau mengembalikan galat, transkripsi dilakukan dengan model lokal. Handy memeriksa server begitu perekaman dimulai, sehingga model lokal sudah bisa dimuat saat Anda berbicara. Setelah server merespons lagi, model lokal dilepas dari memori."
+        "description": "Jika server tidak dapat dijangkau atau mengembalikan galat, transkripsi dilakukan dengan model lokal. Handy memeriksa server begitu perekaman dimulai, sehingga model lokal sudah bisa dimuat saat Anda berbicara. Setelah server merespons lagi, model lokal dilepas dari memori.",
+        "needsModel": "Download and select a local model in the Models tab to use this."
       },
       "busyTimeout": {
         "label": "Beralih Saat Server Sibuk",

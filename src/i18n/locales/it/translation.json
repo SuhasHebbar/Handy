@@ -175,7 +175,8 @@
       },
       "fallback": {
         "label": "Ripiega sul modello locale",
-        "description": "Se il server non è raggiungibile o restituisce un errore, trascrivi con il modello locale. Handy controlla il server appena inizia la registrazione, così il modello locale può già caricarsi mentre parli. Quando il server risponde di nuovo, il modello locale viene scaricato."
+        "description": "Se il server non è raggiungibile o restituisce un errore, trascrivi con il modello locale. Handy controlla il server appena inizia la registrazione, così il modello locale può già caricarsi mentre parli. Quando il server risponde di nuovo, il modello locale viene scaricato.",
+        "needsModel": "Download and select a local model in the Models tab to use this."
       },
       "busyTimeout": {
         "label": "Passa quando il server è occupato",

@@ -19,6 +19,7 @@ This fork can send recordings to an OpenAI-compatible server instead of loading 
 - Requests: `POST {remote_transcription_url}/audio/transcriptions` (or `/translations` when translating), multipart WAV, optional `Authorization: Bearer` key; the URL includes `/v1`
 - The remote dispatch lives at the top of `TranscriptionManager::complete()`, which both `transcribe()` and `transcribe_recording()` funnel into. On failure with fallback on, it calls `initiate_local_model_load()` and falls through to the existing local path — don't reimplement local decoding
 - `initiate_model_load()` is a dispatcher: in remote mode it runs a background probe at recording start (a silent clip against the busy timeout); unreachable/busy preloads the local model, and a later successful remote request unloads it
+- Remote mode needs no local model to start recording (`actions.rs` skips the "can anything transcribe" gate). Fallback does: `change_remote_transcription_fallback_setting` refuses to enable it without a downloaded selected model, enabling remote with none leaves it off, and deleting the selected model turns it off
 - Remote mode disables live streaming (`actions.rs`) and eager local model loads on model selection (`commands/models.rs`)
 - The API key is a `SecretString`, so `Debug`-logging settings never prints it
 - The self-updater is forced off (`update_checks_forced_disabled()` always returns `true`), so upstream releases can't replace this build and drop the feature

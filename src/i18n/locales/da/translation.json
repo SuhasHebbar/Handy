@@ -226,7 +226,8 @@
       },
       "fallback": {
         "label": "Brug lokal model som reserve",
-        "description": "Hvis serveren ikke kan nås eller returnerer en fejl, transskriberes der med den lokale model. Handy tjekker serveren, så snart optagelsen starter, så den lokale model allerede kan indlæses, mens du taler. Når serveren svarer igen, fjernes den lokale model fra hukommelsen."
+        "description": "Hvis serveren ikke kan nås eller returnerer en fejl, transskriberes der med den lokale model. Handy tjekker serveren, så snart optagelsen starter, så den lokale model allerede kan indlæses, mens du taler. Når serveren svarer igen, fjernes den lokale model fra hukommelsen.",
+        "needsModel": "Download and select a local model in the Models tab to use this."
       },
       "busyTimeout": {
         "label": "Skift, når serveren er optaget",

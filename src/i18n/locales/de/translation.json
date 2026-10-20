@@ -175,7 +175,8 @@
       },
       "fallback": {
         "label": "Auf lokales Modell zurückgreifen",
-        "description": "Wenn der Server nicht erreichbar ist oder einen Fehler zurückgibt, wird mit dem lokalen Modell transkribiert. Handy prüft den Server, sobald die Aufnahme beginnt, sodass das lokale Modell bereits lädt, während du sprichst. Sobald der Server wieder antwortet, wird das lokale Modell entladen."
+        "description": "Wenn der Server nicht erreichbar ist oder einen Fehler zurückgibt, wird mit dem lokalen Modell transkribiert. Handy prüft den Server, sobald die Aufnahme beginnt, sodass das lokale Modell bereits lädt, während du sprichst. Sobald der Server wieder antwortet, wird das lokale Modell entladen.",
+        "needsModel": "Download and select a local model in the Models tab to use this."
       },
       "busyTimeout": {
         "label": "Wechseln, wenn der Server ausgelastet ist",

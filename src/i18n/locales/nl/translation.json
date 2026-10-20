@@ -226,7 +226,8 @@
       },
       "fallback": {
         "label": "Terugvallen op lokaal model",
-        "description": "Als de server niet bereikbaar is of een fout geeft, transcribeert Handy met het lokale model. Handy controleert de server zodra de opname begint, zodat het lokale model al kan laden terwijl je spreekt. Zodra de server weer antwoordt, wordt het lokale model ontladen."
+        "description": "Als de server niet bereikbaar is of een fout geeft, transcribeert Handy met het lokale model. Handy controleert de server zodra de opname begint, zodat het lokale model al kan laden terwijl je spreekt. Zodra de server weer antwoordt, wordt het lokale model ontladen.",
+        "needsModel": "Download and select a local model in the Models tab to use this."
       },
       "busyTimeout": {
         "label": "Overschakelen als de server bezet is",

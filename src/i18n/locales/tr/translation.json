@@ -175,7 +175,8 @@
       },
       "fallback": {
         "label": "Yerel Modele Geri Dön",
-        "description": "Sunucuya ulaşılamazsa veya bir hata döndürürse yerel modelle transkripsiyon yapılır. Handy kayıt başlar başlamaz sunucuyu kontrol eder, böylece siz konuşurken yerel model yüklenebilir. Sunucu yeniden yanıt verdiğinde yerel model bellekten kaldırılır."
+        "description": "Sunucuya ulaşılamazsa veya bir hata döndürürse yerel modelle transkripsiyon yapılır. Handy kayıt başlar başlamaz sunucuyu kontrol eder, böylece siz konuşurken yerel model yüklenebilir. Sunucu yeniden yanıt verdiğinde yerel model bellekten kaldırılır.",
+        "needsModel": "Download and select a local model in the Models tab to use this."
       },
       "busyTimeout": {
         "label": "Sunucu Meşgulken Geçiş Yap",
